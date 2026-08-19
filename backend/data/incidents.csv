@@ -2,3 +2,22 @@ id,month,date,time,feeder,duration,cause,method
 1,1,09 Jan 2023,09:14,KJG,142,Pohon/Vegetasi,Manual
 2,1,22 Jan 2023,13:02,KLD,18,Gangguan Transien,RC
 3,2,03 Feb 2023,16:45,MGR,95,Petir,Manual
+4,2,19 Feb 2023,19:20,GBH,165,Peralatan,Manual
+5,3,02 Mar 2023,11:05,KJG,22,Binatang,RC
+6,3,15 Mar 2023,14:50,DMI,110,Pohon/Vegetasi,Manual
+7,3,27 Mar 2023,07:40,KLD,15,Gangguan Transien,RC
+8,4,09 Apr 2023,20:10,MGR,130,Cuaca Ekstrem,Manual
+9,4,30 Apr 2023,15:55,BTK,20,Gangguan Transien,RC
+10,5,14 Mei 2023,09:00,GBH,19,Gangguan Transien,RC
+11,5,22 Mei 2023,12:35,DMI,88,Peralatan,Manual
+12,6,16 Jun 2023,06:50,KJG,25,Binatang,RC
+13,6,28 Jun 2023,21:40,MGR,16,Gangguan Transien,RC
+14,7,11 Jul 2023,13:20,BTK,120,Pohon/Vegetasi,Manual
+15,7,25 Jul 2023,10:10,GBH,14,Gangguan Transien,RC
+16,8,08 Agu 2023,18:05,DMI,70,Peralatan,Manual
+17,8,21 Agu 2023,09:45,KLD,19,Gangguan Transien,RC
+18,9,14 Sep 2023,11:30,KJG,175,Pohon/Vegetasi,Manual
+19,9,29 Sep 2023,15:00,MGR,21,Binatang,RC
+20,10,17 Okt 2023,08:55,BTK,100,Peralatan,Manual
+21,11,09 Nov 2023,19:30,DMI,155,Petir,Manual
+22,12,24 Des 2023,17:15,KLD,145,Cuaca Ekstrem,Manual

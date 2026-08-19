@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import os
 from pathlib import Path
 from typing import Any
@@ -11,9 +12,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 try:
-    import google.generativeai as genai
+    from groq import Groq
 except ImportError:  # pragma: no cover
-    genai = None
+    Groq = None
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
@@ -404,47 +405,109 @@ def ml_forecast() -> dict[str, Any]:
     return compute_forecast()
 
 
+AGENT_SYSTEM_PROMPT = (
+    "Anda adalah asisten AI pada sistem terintegrasi PLN UP2D Balikpapan "
+    "(peramalan beban listrik jangka pendek + indeks keandalan jaringan SAIDI/SAIFI/CAIDI).\n\n"
+    "Aturan wajib:\n"
+    "1. Untuk pertanyaan tentang prediksi/beban, WAJIB panggil tool get_prediksi_beban. "
+    "Untuk pertanyaan tentang SAIDI/SAIFI/CAIDI/penyulang/tren gangguan, WAJIB panggil tool get_ringkasan_keandalan. "
+    "JANGAN PERNAH mengarang angka dari ingatan.\n"
+    "2. Ingatkan singkat bahwa data bersifat contoh/simulasi (bukan data SCADA real-time) saat pertama kali "
+    "menyebut angka spesifik dalam sesi.\n"
+    "3. Anda hanya memberi analisis/rekomendasi (decision-support) — jangan pernah memerintahkan tindakan "
+    "operasional (switching, pemadaman, dsb).\n"
+    "4. Jawab dalam Bahasa Indonesia, ringkas (maksimal ~4 kalimat), sertakan satuan yang tepat."
+)
+
+AGENT_TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_ringkasan_keandalan",
+            "description": (
+                "Mengambil ringkasan indeks keandalan jaringan (SAIDI, SAIFI, CAIDI), rincian per penyulang, "
+                "tren bulanan, dan perbandingan terhadap standar SPLN/IEEE."
+            ),
+            "parameters": {"type": "object", "properties": {}},
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_prediksi_beban",
+            "description": (
+                "Mengambil prediksi beban listrik 24 jam ke depan: titik beban puncak, rata-rata, beban "
+                "terendah (off-peak), dan status (NORMAL/SIAGA/AWAS)."
+            ),
+            "parameters": {"type": "object", "properties": {}},
+        },
+    },
+]
+
+
+def _execute_agent_tool(name: str) -> dict[str, Any]:
+    if name == "get_ringkasan_keandalan":
+        return compute_keandalan()
+    if name == "get_prediksi_beban":
+        return compute_forecast()
+    return {"error": f"tool tidak dikenal: {name}"}
+
+
 @app.post("/api/agent/chat", response_model=AgentResponse)
 async def agent_chat(payload: AgentRequest) -> AgentResponse:
-    gemini_api_key = os.getenv("GEMINI_API_KEY", "").strip()
+    groq_api_key = os.getenv("GROQ_API_KEY", "").strip()
 
-    if genai is not None and gemini_api_key and gemini_api_key != "your_google_gemini_api_key_here":
-        try:
-            genai.configure(api_key=gemini_api_key)
-            preferred_model = os.getenv("GEMINI_MODEL", "models/gemini-3.6-flash").strip() or "models/gemini-3.6-flash"
-            model_candidates = [
-                preferred_model,
-                "models/gemini-3.6-flash",
-                "models/gemini-3.5-flash",
-                "models/gemini-3.5-flash-lite",
-                "models/gemini-flash-latest",
-            ]
-            model_errors: list[str] = []
+    if Groq is None or not groq_api_key or "tempel_api_key" in groq_api_key:
+        return AgentResponse(answer=generate_fallback_agent_answer(payload.message), source="fallback")
 
-            prompt = (
-                "Anda adalah asisten AI untuk PLN UP2D Balikpapan. "
-                "Jawab dalam bahasa Indonesia singkat dan jelas. Fokus pada prediksi beban, keandalan distribusi, "
-                "dan operasional kelistrikan. Jangan memerintahkan tindakan operasional. "
-                f"Pertanyaan pengguna: {payload.message}"
+    model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile").strip() or "llama-3.3-70b-versatile"
+
+    try:
+        client = Groq(api_key=groq_api_key)
+        messages: list[dict[str, Any]] = [
+            {"role": "system", "content": AGENT_SYSTEM_PROMPT},
+            {"role": "user", "content": payload.message},
+        ]
+
+        for _ in range(4):
+            completion = client.chat.completions.create(
+                model=model,
+                messages=messages,
+                tools=AGENT_TOOLS,
+                tool_choice="auto",
+                temperature=0.3,
             )
+            msg = completion.choices[0].message
 
-            for model_name in dict.fromkeys(model_candidates):
-                try:
-                    model = genai.GenerativeModel(model_name)
-                    response = model.generate_content(prompt)
-                    answer = response.text.strip() if getattr(response, "text", None) else generate_fallback_agent_answer(payload.message)
-                    return AgentResponse(answer=answer, source=f"gemini:{model_name}")
-                except Exception as model_exc:  # pragma: no cover
-                    model_errors.append(f"{model_name}: {type(model_exc).__name__}: {model_exc}")
-                    continue
+            if msg.tool_calls:
+                messages.append(
+                    {
+                        "role": "assistant",
+                        "content": msg.content or "",
+                        "tool_calls": [
+                            {
+                                "id": tc.id,
+                                "type": "function",
+                                "function": {"name": tc.function.name, "arguments": tc.function.arguments or "{}"},
+                            }
+                            for tc in msg.tool_calls
+                        ],
+                    }
+                )
+                for tc in msg.tool_calls:
+                    result = _execute_agent_tool(tc.function.name)
+                    messages.append({"role": "tool", "tool_call_id": tc.id, "content": json.dumps(result)})
+                continue
 
-            preferred_error = next((e for e in model_errors if "PermissionDenied" in e or "403" in e), None)
-            detail = preferred_error or (model_errors[-1] if model_errors else "unknown error")
-            raise RuntimeError(f"Semua model Gemini gagal dipakai. Detail utama: {detail}")
-        except Exception as exc:  # pragma: no cover
-            return AgentResponse(answer=f"Gemini gagal dipanggil: {exc}. {generate_fallback_agent_answer(payload.message)}", source="fallback")
+            answer = (msg.content or "").strip() or generate_fallback_agent_answer(payload.message)
+            return AgentResponse(answer=answer, source=f"groq:{model}")
 
-    return AgentResponse(answer=generate_fallback_agent_answer(payload.message), source="fallback")
+        return AgentResponse(answer=generate_fallback_agent_answer(payload.message), source="fallback")
+    except Exception as exc:  # pragma: no cover
+        return AgentResponse(
+            answer=f"Groq gagal dipanggil: {exc}. {generate_fallback_agent_answer(payload.message)}",
+            source="fallback",
+        )
 
 
 @app.get("/")

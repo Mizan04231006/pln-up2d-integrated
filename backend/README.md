@@ -5,8 +5,10 @@
 ```bash
 cd backend
 python -m venv .venv
-.venv\Scripts\activate
+.venv\Scripts\activate      # Windows
+# source .venv/bin/activate  # Mac/Linux
 pip install -r requirements.txt
+cp .env.example .env         # lalu isi GROQ_API_KEY (lihat langkah di bawah)
 ```
 
 ## Menjalankan server
@@ -24,7 +26,10 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 - GET /api/data/source
 - POST /api/data/reload
 
-> Isi API key Gemini di file .env sebelum menggunakan mode AI Gemini real.
+> AI Agent memakai **Groq** (gratis, tanpa kartu kredit — lihat `GANTI_KE_GROQ.md` di root
+> repo untuk alasan & langkah lengkapnya). Isi `GROQ_API_KEY` di `backend/.env` — dapatkan
+> gratis di [console.groq.com/keys](https://console.groq.com/keys). Tanpa key ini, endpoint
+> `/api/agent/chat` tetap berjalan memakai jawaban template (`source: "fallback"`), bukan error.
 
 ## Pakai data asli tanpa ubah kode
 
