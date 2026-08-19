@@ -1,0 +1,4 @@
+id,month,date,time,feeder,duration,cause,method
+1,1,09 Jan 2023,09:14,KJG,142,Pohon/Vegetasi,Manual
+2,1,22 Jan 2023,13:02,KLD,18,Gangguan Transien,RC
+3,2,03 Feb 2023,16:45,MGR,95,Petir,Manual

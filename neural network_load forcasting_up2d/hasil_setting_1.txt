@@ -1,0 +1,9 @@
+Setting : Setting 1
+Arsitektur    : (64, 32)
+Epoch aktual  : 87
+Learning rate : 0.001
+Batch size    : 32
+MAPE  : 1.8937 %
+RMSE  : 1.7766 MW
+MAE   : 1.4025 MW
+R2    : 0.985102

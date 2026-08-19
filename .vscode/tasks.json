@@ -1,0 +1,93 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start Backend (FastAPI)",
+      "type": "shell",
+      "command": "Set-Location 'd:/pln-up2d-integrated/backend'; & 'd:/pln-up2d-integrated/.venv/Scripts/python.exe' -m uvicorn main:app --host 0.0.0.0 --port 8000",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": false
+      },
+      "problemMatcher": {
+        "owner": "custom",
+        "fileLocation": "absolute",
+        "pattern": {
+          "regexp": "^(ERROR|Traceback).*$",
+          "message": 0
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "Uvicorn running on"
+        }
+      }
+    },
+    {
+      "label": "Start Frontend (Vite)",
+      "type": "shell",
+      "command": "Set-Location 'd:/pln-up2d-integrated/frontend'; npm run dev -- --host 0.0.0.0",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": false
+      },
+      "problemMatcher": {
+        "owner": "custom",
+        "fileLocation": "absolute",
+        "pattern": {
+          "regexp": "^(error|Error).*$",
+          "message": 0
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": "ready in"
+        }
+      }
+    },
+    {
+      "label": "Start Full Stack (Backend + Frontend)",
+      "dependsOrder": "parallel",
+      "dependsOn": [
+        "Start Backend (FastAPI)",
+        "Start Frontend (Vite)"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Stop Backend (Port 8000)",
+      "type": "shell",
+      "command": "$conn = Get-NetTCPConnection -LocalPort 8000 -State Listen -ErrorAction SilentlyContinue; if ($conn) { $conn | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }; Write-Host 'Backend stopped (port 8000).'; } else { Write-Host 'No backend process listening on port 8000.'; }",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Stop Frontend (Port 5173)",
+      "type": "shell",
+      "command": "$conn = Get-NetTCPConnection -LocalPort 5173 -State Listen -ErrorAction SilentlyContinue; if ($conn) { $conn | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force -ErrorAction SilentlyContinue }; Write-Host 'Frontend stopped (port 5173).'; } else { Write-Host 'No frontend process listening on port 5173.'; }",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Stop Full Stack (Backend + Frontend)",
+      "dependsOrder": "parallel",
+      "dependsOn": [
+        "Stop Backend (Port 8000)",
+        "Stop Frontend (Port 5173)"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+Setting,Deskripsi,MAPE (%),RMSE (MW),MAE (MW),R2
+Setting 1,"(64,32)  ep≤300  lr=0.001  bs=32",1.8937,1.7766,1.4025,0.985102
