@@ -5,7 +5,7 @@ import AgentPanel from './components/AgentPanel';
 import ReliabilityCharts from './components/ReliabilityCharts';
 import FeederTable from './components/FeederTable';
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_BASE ? import.meta.env.VITE_API_BASE.replace(/\/+$/, '') : '';
 
 function App() {
   const [keandalan, setKeandalan] = useState(null);
@@ -196,7 +196,7 @@ function App() {
 
         {hasBackendError && (
           <div className="mb-6 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-            Backend tidak terhubung di localhost:8000 — pastikan sudah dijalankan.
+            Backend tidak terhubung — pastikan sudah dijalankan (local: `uvicorn main:app` di folder backend).
           </div>
         )}
 

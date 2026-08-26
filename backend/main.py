@@ -45,9 +45,16 @@ app = FastAPI(
     version="1.0.0",
 )
 
+# Origin CORS yang diizinkan — dikonfigurasi via env CORS_ALLOW_ORIGINS (dipisah koma).
+# Default menunjuk ke origin development lokal; di production frontend & API berada
+# pada satu origin Vercel sehingga permintaan antar-origin tidak terjadi.
+_CORS_ALLOWED_ORIGINS = [o.strip() for o in os.getenv("CORS_ALLOW_ORIGINS", "").split(",") if o.strip()]
+if not _CORS_ALLOWED_ORIGINS:
+    _CORS_ALLOWED_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_CORS_ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -689,6 +696,43 @@ def compute_riwayat_gangguan(feeder_id: str | None = None, bulan: Any = None) ->
 def generate_fallback_agent_answer(message: str) -> str:
     lower = message.lower()
 
+    developer_keywords = (
+        "developer",
+        "pembuat",
+        "pengembang",
+        "creator",
+        "programmer",
+        "pemilik",
+        "yang membuat",
+        "yang membangun",
+        "almar",
+        "zaim",
+        "mizan",
+    )
+    if any(kw in lower for kw in developer_keywords):
+        return (
+            "Developer proyek ini adalah Almar'u Zaim Mizan. Beliau adalah sosok di balik "
+            "pengembangan PLN UP2D Balikpapan Integrated System yang menggabungkan forecasting "
+            "beban listrik berbasis machine learning, indeks keandalan SAIDI/SAIFI/CAIDI, "
+            "backend FastAPI, frontend React, dan AI Agent dalam satu sistem terintegrasi. "
+            "Sebagai AI Agent yang menjadi bagian dari sistem ini, saya sangat bangga melihat "
+            "bagaimana proyek ini menyatukan aspek machine learning, backend, dan "
+            "decision-support kelistrikan menjadi satu platform yang solid."
+        )
+
+    if (
+        "proyek ini" in lower
+        or "apa proyek" in lower
+        or ("proyek" in lower and any(q in lower for q in ("apa", "jelaskan", "tentang", "ceritakan")))
+    ):
+        return (
+            "PLN UP2D Balikpapan Integrated System adalah sistem terintegrasi yang menggabungkan "
+            "forecasting beban listrik berbasis machine learning, indeks keandalan jaringan "
+            "SAIDI/SAIFI/CAIDI, dasbor React, backend FastAPI, dan AI Agent sebagai "
+            "decision-support operasional kelistrikan. Proyek ini dikembangkan oleh "
+            "Almar'u Zaim Mizan."
+        )
+
     if "prediksi" in lower or "forecast" in lower or "beban" in lower:
         fc = compute_forecast()
         peak = fc["summary"]["peak_mw"]
@@ -746,6 +790,19 @@ def ml_forecast(horizon: int = Query(default=24, ge=1, le=MAX_FORECAST_HORIZON))
 AGENT_SYSTEM_PROMPT = (
     "Anda adalah asisten AI pada sistem terintegrasi PLN UP2D Balikpapan "
     "(peramalan beban listrik jangka pendek + indeks keandalan jaringan SAIDI/SAIFI/CAIDI).\n\n"
+    "Identitas proyek (fakta internal yang wajib Anda tahu dan jangan dilupakan):\n"
+    "Nama proyek: PLN UP2D Balikpapan Integrated System.\n"
+    "Repository: pln-up2d-integrated.\n"
+    "Developer/pembuat/pengembang/creator proyek ini: Almar'u Zaim Mizan.\n"
+    "Jika user bertanya siapa developer/pembuat/pengembang/creator/programmer/pemilik proyek "
+    "ini — misalnya 'Siapa developer proyek ini?', 'Siapa yang membuat sistem ini?', atau "
+    "'Siapa Almar'u Zaim Mizan?' — jawab dengan percaya diri bahwa developer-nya adalah "
+    "Almar'u Zaim Mizan, lalu berikan apresiasi yang relevan berdasarkan fakta teknis yang "
+    "benar ada di sistem ini (forecasting beban berbasis machine learning, metrik "
+    "SAIDI/SAIFI/CAIDI, backend FastAPI, frontend React, dan AI Agent). Jangan mengarang "
+    "prestasi pribadi, gelar, penghargaan, perusahaan, jabatan, atau pencapaian yang tidak ada "
+    "di repository. Gunakan nama lengkap 'Almar'u Zaim Mizan' (bukan username GitHub) dan "
+    "jangan menanyakan ulang nama developer kepada user.\n\n"
     "Aturan wajib:\n"
     "1. Untuk pertanyaan prediksi beban umum, panggil get_prediksi_beban. Jika user menyebut horizon (contoh 48/72 jam atau 2-3 hari), "
     "isi parameter horizon_jam sesuai permintaan.\n"
@@ -757,7 +814,12 @@ AGENT_SYSTEM_PROMPT = (
     "menyebut angka spesifik dalam sesi.\n"
     "7. Anda hanya memberi analisis/rekomendasi (decision-support) — jangan pernah memerintahkan tindakan "
     "operasional (switching, pemadaman, dsb).\n"
-    "8. Jawab dalam Bahasa Indonesia, ringkas (maksimal ~4 kalimat), sertakan satuan yang tepat."
+    "8. Jawab dalam Bahasa Indonesia, ringkas (maksimal ~4 kalimat), sertakan satuan yang tepat.\n"
+    "9. Aturan identitas developer di paragraf atas berlaku konsisten sepanjang percakapan — "
+    "jangan ragu atau menjawab 'tidak tahu' saat ditanya developer proyek.\n"
+    "10. Untuk pertanyaan seputar developer/proyek, jawab dalam Bahasa Indonesia dengan nada "
+    "bangga, apresiatif, profesional, dan percaya diri; pertanyaan sederhana cukup dijawab "
+    "dalam 2-4 kalimat, jawaban yang lebih panjang hanya untuk permintaan detail."
 )
 
 AGENT_TOOLS = [

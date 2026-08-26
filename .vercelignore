@@ -1,0 +1,12 @@
+# Artefak & secret yang TIDAK boleh ter-upload ke Vercel build/function.
+.venv/
+frontend/node_modules/
+**/__pycache__/
+*.py[cod]
+*.log
+frontend/dist/
+**/.env
+**/.env.*
+!**/.env.example
+.git/
+.vscode/
