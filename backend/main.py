@@ -978,7 +978,7 @@ async def agent_chat(payload: AgentRequest) -> AgentResponse:
             {"role": "user", "content": payload.message},
         ]
 
-        for _ in range(4):
+        for _ in range(3):  # dikurangi dari 4 -> 3: menjaga total latensi di bawah batas 10s Vercel Hobby
             completion = client.chat.completions.create(
                 model=model,
                 messages=messages,
