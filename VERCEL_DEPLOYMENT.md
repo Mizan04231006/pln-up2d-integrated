@@ -1,124 +1,87 @@
-# Deployment PLN UP2D Balikpapan Integrated System ke Vercel
+# Deployment: Semua di Vercel (frontend + backend, satu platform)
 
-Dokumen ini menjelaskan arsitektur deployment, environment variable, serta langkah
-deploy ke Vercel. Frontend (Vite + React) dan backend (FastAPI) berada dalam **satu
-Vercel project** dan **satu domain** (same-origin), sehingga frontend memanggil API
-melalui path relatif `/api/...` — **tidak bergantung pada `localhost`**.
+## Riwayat singkat (kenapa dokumen ini berubah lagi)
 
-## Arsitektur
+1. **Percobaan 1** — Vercel "Services" (beta, 1 project untuk frontend+backend).
+   Gagal karena butuh toggle manual di dashboard yang tidak bisa dilakukan
+   lewat file kode.
+2. **Percobaan 2** — pisah ke Vercel (frontend) + Render (backend). Render
+   ternyata sekarang meminta kartu kredit saat pembuatan Web Service baru untuk
+   akun Anda — jadi tidak jadi dipakai.
+3. **Percobaan 3 (dokumen ini)** — kembali ke SATU platform, tapi dengan cara
+   yang benar: pakai **Vercel Python Serverless Functions** (fitur resmi,
+   sudah lama stabil — beda dari fitur "Services" yang masih beta) lewat folder
+   `api/` di root repo. Akun Vercel Anda yang sekarang sudah terbukti tidak
+   perlu kartu kredit dipakai ulang — tidak perlu daftar platform baru sama sekali.
 
 ```
-GitHub repo (pln-up2d-integrated)
-        |
-        v
-      Vercel (1 project, 1 domain)
-        |
-        +--------------------------+
-        |                          |
-        v                          v
-  Service "frontend"          Service "backend"
-  root: frontend/             root: backend/
-  (Vite + React build)        entrypoint: main:app  (FastAPI)
-        |                          |
-        +------ rewards /api/* ----+
-                     |
-                /api/agent/chat
-                /api/ml/forecast
-                /api/dashboard/keandalan
-                /api/health
-                /api/data/source
-                /api/data/reload
+GitHub repo (root)
+  ├── api/index.py        <- Vercel mendeteksi ini otomatis sbg serverless function
+  ├── backend/main.py     <- app FastAPI asli, diimpor apa adanya oleh api/index.py
+  └── frontend/           <- dibangun jadi static site (buildCommand di vercel.json)
+
+Satu domain Vercel Anda melayani KEDUANYA:
+  https://pln-up2d-integrated.vercel.app/          -> frontend (static)
+  https://pln-up2d-integrated.vercel.app/api/...   -> backend (serverless function)
 ```
 
-- `vercel.json` mendefinisikan dua **service** (fitur **Services**, beta, tersedia di
-  semua plan) — pendekatan yang direkomendasikan Vercel untuk repo berbahasa campuran
-  (JS frontend + Python backend) dalam satu project.
-- Rewrite `"/api/(.*)"` → service `backend`; Vercel meneruskan **path asli** (mis.
-  `/api/agent/chat` tiba di FastAPI sebagai `/api/agent/chat`), sehingga seluruh route
-  FastAPI yang sudah ada tetap berlaku tanpa perubahan.
-- Rewrite `"/(.*)"` → service `frontend` untuk asset dashboard.
+Karena frontend dan backend sekarang satu domain yang sama, **tidak perlu lagi**
+env var `VITE_API_BASE` yang kemarin diisi URL Render — kosongkan/hapus
+variable itu di Vercel dashboard (Settings → Environment Variables), supaya
+frontend kembali memakai path relatif `/api/...` seperti desain awalnya.
 
-### Backend di Vercel
-Backend berjalan sebagai **Python ASGI function** (runtime Python 3.12, dipatok lewat
-`backend/.python-version`). `entrypoint: "main:app"` mengekspos objek `app` dari
-`backend/main.py` — **source of truth backend tidak dipindah/ditulis ulang**.
+## Yang sudah saya siapkan di repo ini
 
-File yang ikut ter-deploy untuk service backend (root `backend/`):
-- `main.py` (seluruh logic)
-- `requirements.txt` (dependency FastAPI, pydantic, groq, scikit-learn, dll.)
-- `model/*.pkl` → model ML forecasting
-- `data/*.csv` → feeder_master, incidents, forecast_hourly, dan **data_beban_up2d.csv**
-  (salinan CSV historis yang dipakai model ML; diletakkan di `backend/data/` agar ikut
-  deploy — `_load_historical_rows()` memprioritaskan `backend/data/data_beban_up2d.csv`)
+- **`api/index.py`** — entry point serverless, cuma mengimpor `app` dari
+  `backend/main.py` apa adanya (bukan duplikasi logika — satu sumber kebenaran
+  tetap di `backend/main.py`, dijalankan lewat `uvicorn` untuk development
+  lokal seperti biasa).
+- **`api/requirements.txt`** — salinan dependency yang sama dengan
+  `backend/requirements.txt`, dibutuhkan Vercel Python builder membaca
+  requirements di direktori yang sama dengan function-nya.
+- **`backend/main.py`** — loop tool-calling AI Agent dikurangi dari maksimal 4
+  jadi 3 iterasi, untuk memperbesar margin aman terhadap **batas eksekusi 10
+  detik** di Vercel Hobby (gratis) — lihat catatan di bawah.
+- Sudah saya uji: `api/index.py` berhasil mengimpor `backend/main.py` tanpa
+  error, seluruh endpoint (`/api/health`, `/api/dashboard/keandalan`,
+  `/api/ml/forecast`, `/api/agent/chat`) terdaftar dengan benar.
 
-## Environment Variable (wajib diset di Vercel)
+## Batasan yang perlu Anda ketahui (jujur, bukan jaminan sempurna)
 
-> **JANGAN commit `.env` / API key ke Git.** `.env*` sudah di-`.vercelignore` & `.gitignore`.
+Vercel Hobby (gratis) membatasi **setiap serverless function maksimal 10 detik
+eksekusi** sebelum dihentikan paksa (504). Untuk endpoint `/api/dashboard/keandalan`
+dan `/api/ml/forecast` ini nyaris pasti aman (cuma hitung-hitungan lokal, tidak
+memanggil API luar). Untuk `/api/agent/chat`, yang memanggil Groq 1-3 kali
+berurutan (tool calling), Groq terkenal sangat cepat sehingga BIASANYA total
+di bawah 10 detik — tapi ini bukan jaminan mutlak, terutama kalau ada jaringan
+lambat atau butuh 3 langkah tool. Kalau Anda mengalami error 504 khusus di tab
+AI Agent (fitur dashboard lain tetap normal), itu tandanya kena batas ini.
 
-| Variable          | Diperlukan | Nilai contoh (bukan secret)                         |
-|-------------------|-----------|-------------------------------------------------------|
-| `GROQ_API_KEY`    | Ya        | (secret Anda dari console.groq.com)                   |
-| `GROQ_MODEL`      | Opsional  | `openai/gpt-oss-120b` (default jika kosong: `llama-3.3-70b-versatile`) |
-| `CORS_ALLOW_ORIGINS` | Opsional | `http://localhost:5173,http://127.0.0.1:5173` (default) |
+## Langkah deploy
 
-Cara set: Vercel > Project > Settings > Environment Variables > tambahkan untuk
-Production/Preview/Development. Di Vercel, env project dibagikan ke seluruh service.
+1. Push perubahan ini ke GitHub (`api/`, `api/requirements.txt`,
+   `backend/main.py` yang sudah diubah).
+2. Di Vercel dashboard, pastikan **Environment Variables** berisi
+   `GROQ_API_KEY` dan `GROQ_MODEL=llama-3.3-70b-versatile` (Settings →
+   Environment Variables — sebelumnya ini cuma ada di `backend/.env` lokal,
+   Vercel tidak baca file `.env` dari repo, harus diisi manual di dashboard).
+   **Hapus** `VITE_API_BASE` kalau masih ada dari percobaan Render.
+3. **Deployments** → Redeploy (atau otomatis ter-trigger oleh push GitHub baru).
+4. Setelah selesai, cek log build — kali ini harus muncul konfirmasi Vercel
+   mendeteksi function Python di `api/index.py`, BUKAN lagi peringatan "no
+   functions or static directory".
+5. Uji `https://pln-up2d-integrated.vercel.app/api/health` di browser -> harus
+   muncul JSON, bukan 404.
 
-Catatan CORS: karena frontend & API **satu origin** di production, permintaan
-antar-origin tidak terjadi sehingga CORS tidak perlu mengizinkan domain Vercel.
-Nilai default hanya untuk development lokal (`localhost:5173`).
+## Kalau masih gagal / mau opsi lain
 
-## Development Lokal (tetap berfungsi)
-
-```bash
-# Terminal 1 — backend
-cd backend
-..\.venv\Scripts\python -m uvicorn main:app --reload        # port 8000
-
-# Terminal 2 — frontend
-cd frontend
-npm install
-npm run dev                                                 # port 5173
-```
-
-Frontend memanggil `/api/...` relatif; Vite mem-proxy `/api` → `http://127.0.0.1:8000`
-(lihat `frontend/vite.config.js`). Tidak perlu menyetel `VITE_API_BASE`.
-
-`VITE_API_BASE` hanya diisi bila API sengaja dipisah di URL lain (tidak disarankan).
-
-## Langkah Deploy
-
-Vercel CLI **tidak perlu** — bisa deploy langsung dari Git:
-
-1. Push perubahan ke GitHub (`git push origin main`).
-2. Import repo di [vercel.com/new](https://vercel.com/new) (repo `Mizan04231006/pln-up2d-integrated`).
-3. Vercel membaca `vercel.json` (Services) → otomatis build service `frontend` (Vite)
-   dan `backend` (Python 3.12 + FastAPI).
-4. Set env vars `GROQ_API_KEY` (wajib), `GROQ_MODEL`, `CORS_ALLOW_ORIGINS` di Project Settings.
-5. Deploy. URL publik: `https://<project>.vercel.app`.
-6. Smoke test endpoint:
-   - `GET https://<project>.vercel.app/api/health`
-   - `GET https://<project>.vercel.app/api/dashboard/keandalan`
-   - `GET https://<project>.vercel.app/api/ml/forecast?horizon=24`
-   - `POST https://<project>.vercel.app/api/agent/chat` body `{"message":"Siapa developer proyek ini?"}`
-
-### Vercel CLI (opsional, untuk `vercel dev`)
-```bash
-npm i -g vercel
-vercel link          # login & link ke project (ikuti prompt)
-vercel dev           # jalankan frontend + backend Services secara lokal
-```
-
-## Limitation & Caveat
-
-- **Scalability ML:** `scikit-learn` + `numpy` besar (±100+ MB). Cold start function
-  Python mungkin sepersekian-detik lebih lambat dari function ringan. Forecast/model
-  di-load atau diprediksi per-request di fungsi; ukuran model kecil (model_setting_1.pkl
-  ≈ 277 KB) sehingga aman untuk Hobby.
-- **AI Agent**: `/api/agent/chat` memanggil Groq. Definitive time-out Vercel Function
-  default diperhitungkan; jika panggilan Groq lambat, naikkan durasi function/service.
-- **Filesystem**: Vercel readonly — semua data/model harus ikut deploy (sudah via
-  `backend/data` & `backend/model`). Tidak ada penulisan file runtime.
-- **Services adalah beta**: jika Vercel mengubah perilaku Services, tinjau
-  dokumentasi resmi. Alternatif (frontend + FastAPI terpisah) tidak disarankan karena
-  memecah domain.
+- `render.yaml` masih ada di repo dari percobaan sebelumnya — tidak mengganggu
+  apa pun kalau dibiarkan (Vercel tidak membacanya), boleh dihapus untuk
+  kerapian atau dibiarkan kalau suatu saat Render tersedia lagi tanpa kartu
+  kredit untuk akun Anda.
+- Kalau error 504 di AI Agent benar-benar sering terjadi, opsi lain adalah
+  PythonAnywhere (tier gratis, tanpa kartu kredit dikonfirmasi banyak sumber) —
+  TAPI saya belum bisa memastikan apakah tier gratisnya mengizinkan koneksi
+  keluar ke api.groq.com atau dibatasi ke daftar domain tertentu. Cek dulu hal
+  ini sebelum pindah ke sana, supaya tidak buang waktu setup untuk hal yang
+  ternyata tidak bisa jalan.
