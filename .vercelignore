@@ -4,7 +4,6 @@ frontend/node_modules/
 **/__pycache__/
 *.py[cod]
 *.log
-frontend/dist/
 **/.env
 **/.env.*
 !**/.env.example
