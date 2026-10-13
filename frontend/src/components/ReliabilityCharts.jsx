@@ -1,167 +1,34 @@
-import { Activity, LineChart, TrendingUp } from 'lucide-react';
-import {
-  ResponsiveContainer,
-  ComposedChart,
-  Area,
-  Line,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from 'recharts';
+import { Activity, BarChart3, LineChart } from 'lucide-react';
+import { Bar, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-const HORIZON_OPTIONS = [
-  { label: '24 Jam', value: 24 },
-  { label: '3 Hari', value: 72 },
-  { label: '7 Hari', value: 168 },
-];
+const HORIZON_OPTIONS = [{ label: '24 jam', value: 24 }, { label: '3 hari', value: 72 }, { label: '7 hari', value: 168 }];
+const tooltipStyle = { background: '#17324d', border: 0, borderRadius: 6, color: '#fff', fontSize: 12 };
 
-function ChartSkeleton({ height = 'h-[280px]' }) {
-  return (
-    <div className={`${height} animate-pulse rounded-xl border border-slate-800 bg-slate-950/60`}>
-      <div className="h-full w-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 bg-[length:200%_100%]" />
-    </div>
-  );
-}
-
-function ReliabilityCharts({
-  forecastSeries,
-  monthlySeries,
-  feederSeries,
-  loadingForecast,
-  loadingDashboard,
-  selectedHorizon,
-  onHorizonChange,
-}) {
-  const forecastTickInterval = Math.max(Math.floor(forecastSeries.length / 12) - 1, 0);
-
+function ReliabilityCharts({ forecastSeries, monthlySeries, feederSeries, loadingForecast, loadingDashboard, selectedHorizon, onHorizonChange }) {
+  const forecastTickInterval = Math.max(Math.floor(forecastSeries.length / 10) - 1, 0);
   return (
     <>
-      <section className="mb-8 grid gap-6 xl:grid-cols-[1.4fr_1fr]">
-        <div className="min-w-0 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 p-5">
-          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
-              <LineChart className="h-5 w-5 text-cyan-400" />
-              <h2 className="text-lg font-semibold">Kurva Beban</h2>
-            </div>
-            <div className="grid grid-cols-3 gap-2 rounded-xl border border-slate-800 bg-slate-950/70 p-1">
-              {HORIZON_OPTIONS.map((opt) => {
-                const active = selectedHorizon === opt.value;
-                return (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => onHorizonChange(opt.value)}
-                    className={`rounded-lg px-2 py-1.5 text-xs font-medium transition ${
-                      active
-                        ? 'bg-cyan-500/20 text-cyan-200'
-                        : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {loadingForecast ? (
-            <ChartSkeleton />
-          ) : forecastSeries.length > 0 ? (
-            <div className="h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <ComposedChart data={forecastSeries}>
-                  <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" />
-                  <XAxis dataKey="hour" interval={forecastTickInterval} stroke="#94a3b8" tick={{ fontSize: 11 }} />
-                  <YAxis stroke="#94a3b8" tick={{ fontSize: 11 }} domain={['dataMin - 5', 'dataMax + 5']} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#020617',
-                      border: '1px solid #1e293b',
-                      borderRadius: 10,
-                    }}
-                    formatter={(value) => [`${Number(value).toFixed(1)} MW`, 'Beban']}
-                  />
-                  <Legend />
-                  <Area type="monotone" dataKey="bebanMW" fill="#06b6d4" fillOpacity={0.18} stroke="none" />
-                  <Line type="monotone" dataKey="bebanMW" name="Prediksi Beban" stroke="#22d3ee" strokeWidth={3} dot={false} />
-                </ComposedChart>
-              </ResponsiveContainer>
-            </div>
-          ) : (
-            <p className="text-slate-400">Data kurva beban belum tersedia.</p>
-          )}
-        </div>
-
-        <div className="min-w-0 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 p-5">
-          <div className="mb-4 flex items-center gap-3">
-            <TrendingUp className="h-5 w-5 text-emerald-400" />
-            <h2 className="text-lg font-semibold">Kepadatan Gangguan Bulanan</h2>
-          </div>
-          {loadingDashboard ? (
-            <ChartSkeleton />
-          ) : monthlySeries.length > 0 ? (
-            <div className="h-[280px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={monthlySeries}>
-                  <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" />
-                  <XAxis dataKey="bulan" stroke="#94a3b8" tick={{ fontSize: 11 }} />
-                  <YAxis stroke="#94a3b8" tick={{ fontSize: 11 }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#020617',
-                      border: '1px solid #1e293b',
-                      borderRadius: 10,
-                    }}
-                  />
-                  <Legend />
-                  <Bar dataKey="kejadian" name="Jumlah kejadian" radius={[6, 6, 0, 0]} fill="#34d399" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          ) : (
-            <p className="text-slate-400">Data gangguan bulanan belum tersedia.</p>
-          )}
-        </div>
+      <section className="mb-7 grid gap-6 xl:grid-cols-[1.4fr_1fr]">
+        <ChartPanel icon={LineChart} kicker="Prediksi model" title="Kurva beban" action={<div className="segmented-control">{HORIZON_OPTIONS.map((option) => <button key={option.value} type="button" onClick={() => onHorizonChange(option.value)} className={selectedHorizon === option.value ? 'active' : ''}>{option.label}</button>)}</div>}>
+          {loadingForecast ? <ChartSkeleton /> : forecastSeries.length > 0 ? <div className="h-[280px]"><ResponsiveContainer width="100%" height="100%"><ComposedChart data={forecastSeries} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}><CartesianGrid stroke="#e7eeeb" vertical={false} /><XAxis dataKey="hour" interval={forecastTickInterval} tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} /><YAxis unit=" MW" tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} width={55} /><Tooltip contentStyle={tooltipStyle} formatter={(value) => [`${Number(value).toFixed(1)} MW`, 'Beban']} /><Line type="monotone" dataKey="bebanMW" name="Prediksi beban" stroke="#008c45" strokeWidth={2.5} dot={false} /></ComposedChart></ResponsiveContainer></div> : <EmptyState text="Data kurva beban belum tersedia." />}
+        </ChartPanel>
+        <ChartPanel icon={BarChart3} kicker="Riwayat gangguan" title="Kejadian bulanan">
+          {loadingDashboard ? <ChartSkeleton /> : monthlySeries.length > 0 ? <div className="h-[280px]"><ResponsiveContainer width="100%" height="100%"><ComposedChart data={monthlySeries} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}><CartesianGrid stroke="#e7eeeb" vertical={false} /><XAxis dataKey="bulan" tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} /><YAxis tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} width={32} /><Tooltip contentStyle={tooltipStyle} /><Bar dataKey="kejadian" name="Jumlah kejadian" fill="#f2c94c" radius={[3, 3, 0, 0]} /></ComposedChart></ResponsiveContainer></div> : <EmptyState text="Data gangguan bulanan belum tersedia." />}
+        </ChartPanel>
       </section>
-
-      <section className="mb-8 min-w-0 overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/80 p-5">
-        <div className="mb-4 flex items-center gap-3">
-          <Activity className="h-5 w-5 text-amber-400" />
-          <h2 className="text-lg font-semibold">Perbandingan SAIDI/SAIFI per Penyulang</h2>
-        </div>
-        {loadingDashboard ? (
-          <ChartSkeleton height="h-[320px]" />
-        ) : feederSeries.length > 0 ? (
-          <div className="h-[320px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart data={feederSeries}>
-                <CartesianGrid stroke="#1e293b" strokeDasharray="3 3" />
-                <XAxis dataKey="feeder" stroke="#94a3b8" tick={{ fontSize: 11 }} />
-                <YAxis yAxisId="left" stroke="#94a3b8" tick={{ fontSize: 11 }} />
-                <YAxis yAxisId="right" orientation="right" stroke="#94a3b8" tick={{ fontSize: 11 }} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: '#020617',
-                    border: '1px solid #1e293b',
-                    borderRadius: 10,
-                  }}
-                />
-                <Legend />
-                <Bar yAxisId="left" dataKey="saidi" name="SAIDI (jam)" radius={[6, 6, 0, 0]} fill="#38bdf8" />
-                <Line yAxisId="right" type="monotone" dataKey="saifi" name="SAIFI (kali)" stroke="#f59e0b" strokeWidth={2.5} />
-              </ComposedChart>
-            </ResponsiveContainer>
-          </div>
-        ) : (
-          <p className="text-slate-400">Data perbandingan antar penyulang belum tersedia.</p>
-        )}
+      <section className="panel mb-7 min-w-0">
+        <div className="panel-heading"><div className="flex items-center gap-3"><div className="panel-icon panel-icon-yellow"><Activity className="h-5 w-5" /></div><div><p className="section-kicker">Perbandingan indikator</p><h2 className="panel-title">Keandalan per penyulang</h2></div></div><span className="hidden text-xs text-[#667085] sm:block">SAIDI dalam jam · SAIFI dalam kali</span></div>
+        {loadingDashboard ? <ChartSkeleton height="h-[320px]" /> : feederSeries.length > 0 ? <div className="h-[320px]"><ResponsiveContainer width="100%" height="100%"><ComposedChart data={feederSeries} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}><CartesianGrid stroke="#e7eeeb" vertical={false} /><XAxis dataKey="feeder" tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} /><YAxis yAxisId="left" tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} width={36} /><YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} width={36} /><Tooltip contentStyle={tooltipStyle} /><Bar yAxisId="left" dataKey="saidi" name="SAIDI (jam)" fill="#17324d" radius={[3, 3, 0, 0]} /><Line yAxisId="right" type="monotone" dataKey="saifi" name="SAIFI (kali)" stroke="#d64545" strokeWidth={2.5} dot={{ r: 2 }} /></ComposedChart></ResponsiveContainer></div> : <EmptyState text="Data perbandingan antar penyulang belum tersedia." />}
       </section>
     </>
   );
 }
+
+function ChartPanel({ icon: Icon, kicker, title, action, children }) {
+  return <section className="panel min-w-0 overflow-hidden"><div className="panel-heading"><div className="flex items-center gap-3"><div className="panel-icon panel-icon-green"><Icon className="h-5 w-5" /></div><div><p className="section-kicker">{kicker}</p><h2 className="panel-title">{title}</h2></div></div>{action}</div>{children}</section>;
+}
+
+function ChartSkeleton({ height = 'h-[280px]' }) { return <div className={`${height} animate-pulse rounded-lg bg-[#f4f7f6]`} />; }
+function EmptyState({ text }) { return <div className="flex h-[280px] items-center justify-center text-sm text-[#667085]">{text}</div>; }
 
 export default ReliabilityCharts;

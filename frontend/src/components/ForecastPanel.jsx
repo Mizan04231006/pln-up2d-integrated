@@ -1,70 +1,64 @@
-import { LineChart } from 'lucide-react';
-
-function MiniMetric({ label, value, loading }) {
-  if (loading) {
-    return (
-      <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3 animate-pulse">
-        <div className="h-2 w-16 rounded bg-slate-800" />
-        <div className="mt-3 h-4 w-20 rounded bg-slate-700" />
-      </div>
-    );
-  }
-
-  return (
-    <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3">
-      <p className="text-[10px] uppercase tracking-[0.2em] text-slate-400">{label}</p>
-      <p className="mt-2 text-sm font-semibold text-white">{value}</p>
-    </div>
-  );
-}
+import { Activity, Clock3, Cpu, LineChart, TrendingUp } from 'lucide-react';
+import {
+  Area,
+  CartesianGrid,
+  ComposedChart,
+  Line,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
 function ForecastPanel({ forecast, loading }) {
+  const series = forecast?.prediksi?.map((item) => ({ hour: item.hour, beban: item.beban_mw })) ?? [];
+
   return (
-    <div className="min-w-0 rounded-2xl border border-slate-800 bg-slate-900/80 p-5">
-      <div className="mb-4 flex items-center gap-3">
-        <LineChart className="h-5 w-5 text-cyan-400" />
-        <h2 className="text-lg font-semibold">Forecast Beban Listrik</h2>
+    <section className="panel min-w-0">
+      <div className="panel-heading">
+        <div className="flex items-center gap-3">
+          <div className="panel-icon panel-icon-green"><LineChart className="h-5 w-5" /></div>
+          <div><p className="section-kicker">Analisis beban</p><h2 className="panel-title">Forecast beban listrik</h2></div>
+        </div>
+        {forecast?.summary?.status && <span className={`status-label status-label-${forecast.summary.status === 'AWAS' ? 'critical' : forecast.summary.status === 'SIAGA' ? 'warning' : 'normal'}`}>{forecast.summary.status}</span>}
       </div>
 
       {loading ? (
-        <div className="space-y-4 animate-pulse">
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, idx) => (
-              <MiniMetric key={idx} label="-" value="-" loading />
-            ))}
-          </div>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, idx) => (
-              <div key={idx} className="h-7 rounded-full border border-slate-800 bg-slate-800/70" />
-            ))}
-          </div>
-        </div>
+        <div className="space-y-4"><div className="h-[230px] animate-pulse rounded-lg bg-[#f4f7f6]" /><div className="grid grid-cols-3 gap-3">{[1, 2, 3].map((item) => <div key={item} className="h-14 animate-pulse rounded-lg bg-[#f4f7f6]" />)}</div></div>
       ) : forecast ? (
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            <MiniMetric label="Peak" value={`${forecast.summary.peak_mw.toFixed(1)} MW`} />
-            <MiniMetric label="Average" value={`${forecast.summary.average_mw.toFixed(1)} MW`} />
-            <MiniMetric label="Off Peak" value={`${forecast.summary.off_peak_mw.toFixed(1)} MW`} />
-            <MiniMetric label="Status" value={forecast.summary.status} />
+        <>
+          <div className="mb-4 grid grid-cols-3 gap-3">
+            <MiniMetric icon={TrendingUp} label="Puncak" value={`${forecast.summary.peak_mw.toFixed(1)} MW`} />
+            <MiniMetric icon={Activity} label="Rata-rata" value={`${forecast.summary.average_mw.toFixed(1)} MW`} />
+            <MiniMetric icon={Clock3} label="Horizon" value={`${series.length} jam`} />
           </div>
-
-          <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/5 px-3 py-2 text-xs text-cyan-200">
-            {forecast.confidence_note}
+          <div className="h-[230px] w-full">
+            {series.length > 0 ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <ComposedChart data={series} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
+                  <defs><linearGradient id="forecastFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#008c45" stopOpacity={0.25} /><stop offset="100%" stopColor="#008c45" stopOpacity={0} /></linearGradient></defs>
+                  <CartesianGrid stroke="#e7eeeb" vertical={false} />
+                  <XAxis dataKey="hour" tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} minTickGap={18} />
+                  <YAxis unit=" MW" tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} width={55} />
+                  <Tooltip contentStyle={{ background: '#17324d', border: 0, borderRadius: 6, color: '#fff', fontSize: 12 }} formatter={(value) => [`${Number(value).toFixed(1)} MW`, 'Beban prediksi']} />
+                  <Area type="monotone" dataKey="beban" stroke="none" fill="url(#forecastFill)" />
+                  <Line type="monotone" dataKey="beban" name="Prediksi" stroke="#008c45" strokeWidth={2.5} dot={false} />
+                </ComposedChart>
+              </ResponsiveContainer>
+            ) : <p className="pt-16 text-center text-sm text-[#667085]">Data kurva beban belum tersedia.</p>}
           </div>
-
-          <div className="flex max-h-36 flex-wrap gap-2 overflow-y-auto pr-1">
-            {forecast.prediksi.map((item, index) => (
-              <span key={`${item.hour}-${index}`} className="rounded-full border border-slate-700 px-2 py-1 text-xs text-slate-300">
-                {item.hour}: {item.beban_mw.toFixed(1)} MW
-              </span>
-            ))}
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-[#e7eeeb] pt-3 text-xs text-[#667085]">
+            <span className="flex items-center gap-1.5"><Cpu className="h-3.5 w-3.5" /> Model: {forecast.summary.model ?? 'Tidak tersedia'}</span>
+            <span>{forecast.confidence_note}</span>
           </div>
-        </div>
-      ) : (
-        <p className="text-slate-400">Data forecast belum tersedia.</p>
-      )}
-    </div>
+        </>
+      ) : <p className="py-16 text-center text-sm text-[#667085]">Data forecast belum tersedia.</p>}
+    </section>
   );
+}
+
+function MiniMetric({ icon: Icon, label, value }) {
+  return <div className="rounded-lg border border-[#e7eeeb] bg-[#f8faf9] p-3"><p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#667085]"><Icon className="h-3.5 w-3.5 text-[#008c45]" /> {label}</p><p className="mt-1 text-sm font-semibold text-[#17324d]">{value}</p></div>;
 }
 
 export default ForecastPanel;
