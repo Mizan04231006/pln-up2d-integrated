@@ -142,7 +142,7 @@ function App() {
     [forecast],
   );
   const monthlySeries = useMemo(
-    () => keandalan?.monthly?.map((m) => ({ bulan: m.bulan, saidi: m.saidi, saifi: m.saifi, kejadian: m.kejadian })) ?? [],
+    () => keandalan?.monthly?.filter((m) => m.kejadian > 0).map((m) => ({ bulan: m.bulan, saidi: m.saidi, saifi: m.saifi, kejadian: m.kejadian })) ?? [],
     [keandalan],
   );
   const feederSeries = useMemo(
@@ -254,6 +254,16 @@ function App() {
           <StatCard label="CAIDI" value={summary ? `${summary.caidiH.toFixed(2)} jam` : '--'} detail="Durasi rata-rata per gangguan" icon={RefreshCw} tone="yellow" loading={loadingDashboard} />
           <StatCard label="Pelanggan terpantau" value={summary ? summary.totalCustomers.toLocaleString('id-ID') : '--'} detail="Akumulasi seluruh penyulang" icon={Wifi} tone="red" loading={loadingDashboard} />
         </section>
+
+        {keandalan?.dataQuality?.isEstimate && (
+          <section className="mb-7 rounded-lg border border-[#e8c878] bg-[#fff9e8] px-4 py-3 text-sm text-[#765b15]">
+            <p className="font-semibold">Indikator keandalan berbasis estimasi · {keandalan.dataQuality.period}</p>
+            <p className="mt-1 text-xs leading-5">CSV sumber tidak menyertakan tahun, jumlah pelanggan feeder, atau durasi padam. Perhitungan memakai asumsi jumlah pelanggan dan durasi tetap; gunakan sebagai simulasi akademik, bukan angka ukur atau indeks tahunan.</p>
+            <ul className="mt-2 list-inside list-disc space-y-0.5 text-xs">
+              {keandalan.dataQuality.assumptions.map((assumption) => <li key={assumption}>{assumption}</li>)}
+            </ul>
+          </section>
+        )}
 
         <section className="mb-7 grid gap-6 xl:grid-cols-[1.55fr_1fr]">
           <ForecastPanel forecast={forecast} loading={loadingForecast} />

@@ -29,6 +29,8 @@ FORECAST_WINDOW_HOURS = 24
 DEFAULT_FORECAST_HORIZON = 24
 MAX_FORECAST_HORIZON = 168
 SIM_DATA_FILE = ROOT_DIR / "neural network_load forcasting_up2d" / "data_beban_up2d.csv"
+ESTIMATED_CUSTOMERS_PER_FEEDER = 1000
+ESTIMATED_DURATION_MINUTES = 60
 OUTAGE_DATA_FILE = DATA_DIR / "data_beban_padam_up2d.csv"
 OUTAGE_EVALUATION_FILE = DATA_DIR / "outage_model_evaluation.json"
 
@@ -137,6 +139,7 @@ FORECAST_POINTS: list[dict[str, Any]] = []
 TOTAL_CUSTOMERS = 0
 FEEDER_MAP: dict[str, dict[str, Any]] = {}
 DATA_SOURCE: dict[str, Any] = {}
+RELIABILITY_ESTIMATED = False
 MONTH_NAME_TO_INDEX = {
     "jan": 0,
     "januari": 0,
@@ -429,6 +432,11 @@ def _load_incidents_csv(path: Path, feeder_ids: set[str]) -> list[dict[str, Any]
                     "duration": duration,
                     "cause": (row.get("cause") or "Tidak Diketahui").strip(),
                     "method": _normalize_method((row.get("method") or "").strip()),
+                    "event_count": _safe_int(row.get("event_count"), 1),
+                    "affected_customers": _safe_int(
+                        row.get("affected_customers"), 0
+                    ) or None,
+                    "category": (row.get("category") or "").strip(),
                 }
             )
     if not rows:
@@ -456,12 +464,16 @@ def _load_forecast_csv(path: Path) -> list[dict[str, Any]]:
 
 def initialize_data_sources() -> None:
     global FEEDERS, INCIDENTS, FORECAST_POINTS, FEEDER_MAP, TOTAL_CUSTOMERS, DATA_SOURCE
+    global RELIABILITY_ESTIMATED
 
     sources = {"feeder": "default", "incident": "default", "forecast": "default"}
     errors: list[str] = []
 
-    feeder_file = DATA_DIR / "feeder_master.csv"
-    incident_file = DATA_DIR / "incidents.csv"
+    estimated_feeder_file = DATA_DIR / "saidi_saifi_feeder_master.csv"
+    estimated_incident_file = DATA_DIR / "saidi_saifi_incidents.csv"
+    RELIABILITY_ESTIMATED = estimated_feeder_file.exists() and estimated_incident_file.exists()
+    feeder_file = estimated_feeder_file if RELIABILITY_ESTIMATED else DATA_DIR / "feeder_master.csv"
+    incident_file = estimated_incident_file if RELIABILITY_ESTIMATED else DATA_DIR / "incidents.csv"
     forecast_file = DATA_DIR / "forecast_hourly.csv"
 
     try:
@@ -500,6 +512,7 @@ def initialize_data_sources() -> None:
     DATA_SOURCE = {
         "sources": sources,
         "errors": errors,
+        "reliability_estimated": RELIABILITY_ESTIMATED,
         "counts": {
             "feeder": len(FEEDERS),
             "incident": len(INCIDENTS),
@@ -524,50 +537,72 @@ class AgentResponse(BaseModel):
 
 
 def compute_keandalan():
-    sum_rn = 0
-    for event in INCIDENTS:
-        cust = FEEDER_MAP[event["feeder"]]["customers"]
-        sum_rn += event["duration"] * cust
-
-    saidi_min = sum_rn / TOTAL_CUSTOMERS
+    sum_rn = sum(
+        event["duration"] * (event.get("affected_customers") or FEEDER_MAP[event["feeder"]]["customers"])
+        for event in INCIDENTS
+    )
+    interruption_customers = sum(
+        event.get("affected_customers") or FEEDER_MAP[event["feeder"]]["customers"]
+        for event in INCIDENTS
+    )
+    saidi_min = sum_rn / TOTAL_CUSTOMERS if TOTAL_CUSTOMERS else 0
     saidi_h = saidi_min / 60
-    saifi = sum(FEEDER_MAP[event["feeder"]]["customers"] for event in INCIDENTS) / TOTAL_CUSTOMERS
+    saifi = interruption_customers / TOTAL_CUSTOMERS if TOTAL_CUSTOMERS else 0
     caidi_min = saidi_min / saifi if saifi else 0
     caidi_h = caidi_min / 60
 
     per_feeder = []
     for feeder in FEEDERS:
         events = [event for event in INCIDENTS if event["feeder"] == feeder["id"]]
-        total_duration = sum(event["duration"] for event in events)
-        count = len(events)
+        total_duration = sum(event["duration"] * event.get("event_count", 1) for event in events)
+        feeder_interruptions = sum(
+            event.get("affected_customers") or feeder["customers"] for event in events
+        )
+        feeder_customer_count = feeder["customers"]
+        feeder_saidi_h = (
+            sum(
+                event["duration"] * (event.get("affected_customers") or feeder_customer_count)
+                for event in events
+            ) / (feeder_customer_count * 60)
+            if feeder_customer_count
+            else 0
+        )
+        feeder_saifi = feeder_interruptions / feeder_customer_count if feeder_customer_count else 0
         per_feeder.append(
             {
                 "id": feeder["id"],
                 "name": feeder["name"],
                 "customers": feeder["customers"],
-                "count": count,
+                "count": sum(event.get("event_count", 1) for event in events),
                 "sumR": total_duration,
-                "saidiH": total_duration / 60,
-                "saifi": count,
-                "caidiH": (total_duration / count / 60) if count else 0,
+                "saidiH": feeder_saidi_h,
+                "saifi": feeder_saifi,
+                "caidiH": (feeder_saidi_h / feeder_saifi) if feeder_saifi else 0,
             }
         )
+    per_feeder.sort(key=lambda item: item["count"], reverse=True)
 
     monthly = []
     for i, month_name in enumerate(MONTHS):
         events = [event for event in INCIDENTS if event["month"] == i]
-        m_rn = sum(event["duration"] * FEEDER_MAP[event["feeder"]]["customers"] for event in events)
-        m_n = sum(FEEDER_MAP[event["feeder"]]["customers"] for event in events)
+        m_rn = sum(
+            event["duration"] * (event.get("affected_customers") or FEEDER_MAP[event["feeder"]]["customers"])
+            for event in events
+        )
+        m_n = sum(
+            event.get("affected_customers") or FEEDER_MAP[event["feeder"]]["customers"]
+            for event in events
+        )
         monthly.append(
             {
                 "bulan": month_name,
-                "saidi": round((m_rn / TOTAL_CUSTOMERS), 2),
-                "saifi": round((m_n / TOTAL_CUSTOMERS), 3),
-                "kejadian": len(events),
+                "saidi": round((m_rn / TOTAL_CUSTOMERS / 60), 4) if TOTAL_CUSTOMERS else 0,
+                "saifi": round((m_n / TOTAL_CUSTOMERS), 4) if TOTAL_CUSTOMERS else 0,
+                "kejadian": sum(event.get("event_count", 1) for event in events),
             }
         )
 
-    return {
+    result = {
         "summary": {
             "saidiMin": round(saidi_min, 2),
             "saidiH": round(saidi_h, 2),
@@ -583,6 +618,20 @@ def compute_keandalan():
             "IEEE": {"saidi": 2.3, "saifi": 1.45, "caidi": 1.47},
         },
     }
+    if RELIABILITY_ESTIMATED:
+        result["dataQuality"] = {
+            "isEstimate": True,
+            "period": "Oktober (tahun tidak tercantum pada sumber)",
+            "source": "Data mentah untuk Load Forecasting dan SAIDI SAIFI CAIDI.csv",
+            "assumptions": [
+                f"Jumlah pelanggan diperkirakan {ESTIMATED_CUSTOMERS_PER_FEEDER} per feeder karena master pelanggan tidak tersedia.",
+                f"Durasi padam diperkirakan {ESTIMATED_DURATION_MINUTES} menit per interupsi.",
+                "Baris umum diperlakukan sebagai gangguan feeder yang berdampak ke seluruh pelanggan feeder.",
+                "Setiap hitungan pada data captive diperlakukan sebagai satu interupsi pelanggan.",
+                "Data hanya mencakup Oktober; hasil bukan indeks tahunan.",
+            ],
+        }
+    return result
 
 
 @app.on_event("startup")
@@ -746,14 +795,21 @@ def compute_detail_penyulang(feeder_id: str) -> dict[str, Any]:
 
     feeder = FEEDER_MAP[feeder_key]
     events = [event for event in INCIDENTS if event["feeder"] == feeder_key]
-    total_duration = sum(event["duration"] for event in events)
-    count = len(events)
+    total_duration = sum(event["duration"] * event.get("event_count", 1) for event in events)
+    count = sum(event.get("event_count", 1) for event in events)
     customers = feeder["customers"]
 
-    sum_rn = sum(event["duration"] * customers for event in events)
+    sum_rn = sum(
+        event["duration"] * (event.get("affected_customers") or customers)
+        for event in events
+    )
     saidi_min = sum_rn / customers if customers else 0
     saidi_h = saidi_min / 60
-    saifi = count
+    saifi = (
+        sum(event.get("affected_customers") or customers for event in events) / customers
+        if customers
+        else 0
+    )
     caidi_min = saidi_min / saifi if saifi else 0
     caidi_h = caidi_min / 60
 
@@ -824,7 +880,7 @@ def compute_riwayat_gangguan(feeder_id: str | None = None, bulan: Any = None) ->
             "bulan": month_index + 1 if month_index is not None else None,
             "bulan_label": MONTHS[month_index] if month_index is not None else None,
         },
-        "count": len(filtered),
+        "count": sum(event.get("event_count", 1) for event in filtered),
         "events": filtered,
     }
 

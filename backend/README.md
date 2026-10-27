@@ -33,6 +33,22 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 > gratis di [console.groq.com/keys](https://console.groq.com/keys). Tanpa key ini, endpoint
 > `/api/agent/chat` tetap berjalan memakai jawaban template (`source: "fallback"`), bukan error.
 
+## Data SAIDI/SAIFI/CAIDI dari rekap mentah
+
+Jalankan ETL berikut dari root repository untuk membentuk data feeder dan gangguan
+yang dipakai dashboard:
+
+```bash
+python etl_saidi_saifi_caidi.py
+```
+
+Output `backend/data/saidi_saifi_feeder_master.csv` dan
+`backend/data/saidi_saifi_incidents.csv` akan diprioritaskan saat backend dimulai.
+Sumber hanya mencakup Oktober dan tidak mencatat tahun, jumlah pelanggan per feeder,
+atau durasi gangguan. ETL memakai estimasi 1.000 pelanggan/feeder dan durasi
+60 menit/interupsi; respons dashboard menandai hasil ini sebagai estimasi. Jangan
+menafsirkan hasil tersebut sebagai pengukuran lapangan atau indeks tahunan.
+
 ## Pakai data asli tanpa ubah kode
 
 Backend sekarang otomatis membaca file CSV pada folder `backend/data`.
