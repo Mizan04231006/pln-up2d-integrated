@@ -93,3 +93,35 @@ Pastikan kolom CSV menggunakan nama:
 `Waktu, Beban_MW, Suhu_C, Jam, Hari_Minggu, Bulan, Adalah_Libur`
 
 Atau sesuaikan nama kolom di baris `FITUR_INPUT` pada `02_train_model.py`.
+
+## Menyiapkan Data Beban Padam dari CSV Mentah
+
+File `backend/data/Data mentah untuk Load Forecasting dan SAIDI SAIFI CAIDI.csv`
+hanya berisi jumlah kejadian padam per feeder dan tanggal Oktober. File tersebut
+tidak menyediakan waktu kejadian, durasi, atau nilai MW yang terputus. Jalankan:
+
+```bash
+python "04_prepare_outage_load_data.py"
+```
+
+Skrip ini menghasilkan:
+
+- `backend/data/data_beban_padam_up2d.csv` — data hourly dengan format input MLP.
+- `backend/data/rekap_beban_padam_harian.csv` — audit jumlah kejadian dan estimasi
+  beban padam harian.
+- `backend/data/rekap_beban_padam_feeder.csv` — rekap kejadian per feeder dan
+  kategori umum/captive.
+
+Interpretasi data:
+
+- Jumlah kejadian pada Oktober adalah observasi dari baris `TOTAL UMUM + CAPTIVE`.
+- Bulan selain Oktober diperkirakan dari rata-rata pola Oktober dengan faktor
+  musiman dan faktor akhir pekan.
+- `Beban_Padam_MW` diperkirakan dari `0,35 MW` per kejadian dan dibatasi maksimum
+  `45%` dari beban normal harian.
+- Karena sumber tidak mencatat jam kejadian, beban padam dialokasikan mengikuti
+  profil beban normal pada hari tersebut.
+
+Dengan demikian, hasil ini cocok untuk forecasting beban padam berbasis estimasi,
+bukan pengganti data SCADA. Kolom `Sumber_Data` wajib dipertahankan agar hasil
+observasi dan estimasi tidak tertukar dalam laporan.

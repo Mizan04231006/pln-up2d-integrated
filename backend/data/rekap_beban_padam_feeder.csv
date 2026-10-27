@@ -1,0 +1,344 @@
+Kategori,Pelanggan,Total_Kejadian_Oktober,Hari_Aktif,Kejadian_Maks_Harian,Sumber
+CAPTIVE,PT PERTAMINA RU-V SS11 - IND.14,24,15,3,CSV mentah observasi
+CAPTIVE,PT MMP - KTT,23,19,5,CSV mentah observasi
+CAPTIVE,PT KFI - KTT,22,22,1,CSV mentah observasi
+CAPTIVE,PT BADAK LNG - TLP.05,14,10,3,CSV mentah observasi
+CAPTIVE,PT KOBEXINDO - KTT,11,11,1,CSV mentah observasi
+CAPTIVE,PT BKA 1 - HRB.09,6,6,1,CSV mentah observasi
+CAPTIVE,PT BERAU COAL - TJR.06,6,6,1,CSV mentah observasi
+CAPTIVE,PT Indexim - MLY.02,5,5,1,CSV mentah observasi
+CAPTIVE,PT ASIAN BERDIKARI CEMERLANG - BRU.02,4,4,1,CSV mentah observasi
+CAPTIVE,PT IMM Port - BTL.03,3,3,1,CSV mentah observasi
+CAPTIVE,PT PIK & PT KPC - MLY.04,3,3,1,CSV mentah observasi
+CAPTIVE,PT SAMATOR - TLP.04,3,3,1,CSV mentah observasi
+CAPTIVE,PT PERTAMINA HULU MAHAKAM - SNP.01,2,2,1,CSV mentah observasi
+CAPTIVE,PT PERTAMINA - STA.04,2,2,1,CSV mentah observasi
+CAPTIVE,PT BKA 2 - HRB.10,1,1,1,CSV mentah observasi
+CAPTIVE,PT GAM - MLY.05,1,1,1,CSV mentah observasi
+CAPTIVE,PT MMP 2 - KTT,1,1,1,CSV mentah observasi
+CAPTIVE,PT PERTAMINA RU-V SS11 - IND.15,0,0,0,CSV mentah observasi
+CAPTIVE,TLB.01 LBS BJU,0,0,0,CSV mentah observasi
+CAPTIVE,BRU.05 PT ABC,0,0,0,CSV mentah observasi
+CAPTIVE,TJR.06 PT BC SMO,0,0,0,CSV mentah observasi
+CAPTIVE,TLB.01 MESS PAMAPERSADA,0,0,0,CSV mentah observasi
+CAPTIVE,TJR.06 PT ATM,0,0,0,CSV mentah observasi
+CAPTIVE,TJR.07 UNITED TRACTOR,0,0,0,CSV mentah observasi
+CAPTIVE,TKW.13 PT KALAMUR,0,0,0,CSV mentah observasi
+CAPTIVE,SBT.03 PT. MKS,0,0,0,CSV mentah observasi
+CAPTIVE,SBT.03 PT. KSA,0,0,0,CSV mentah observasi
+CAPTIVE,TKW.06 PDAM TELUK TERONG,0,0,0,CSV mentah observasi
+CAPTIVE,PROYEK PSPAB PDAM - KRJ.06,0,0,0,CSV mentah observasi
+CAPTIVE,PT MEGAH HIJAU LESTARI - PTG.08,0,0,0,CSV mentah observasi
+CAPTIVE,PKS SAMUNTAI - KRO.04,0,0,0,CSV mentah observasi
+CAPTIVE,PT KUARINDO PRATAMA JAYA - GRT.08,0,0,0,CSV mentah observasi
+CAPTIVE,PT BENAKUTAI - IND.03,0,0,0,CSV mentah observasi
+CAPTIVE,PT SANGGAR SARANA BAJA - KAR.01,0,0,0,CSV mentah observasi
+CAPTIVE,PT SEMERU SURYA SEMEN - MJW.01,0,0,0,CSV mentah observasi
+CAPTIVE,PT SEMESTA PERTAMBANGAN - GRT.08,0,0,0,CSV mentah observasi
+CAPTIVE,PT IMM - TLP.07,0,0,0,CSV mentah observasi
+CAPTIVE,YYS DANA PENSIUN BRI - IND.07,0,0,0,CSV mentah observasi
+CAPTIVE,PT HEXINDO ADIPERKASA TBK - MGS.02,0,0,0,CSV mentah observasi
+CAPTIVE,PT BALIKPAPAN READY MIX - KAR.01,0,0,0,CSV mentah observasi
+CAPTIVE,PT TRAKINDO UTAMA - KAR.01,0,0,0,CSV mentah observasi
+CAPTIVE,PKS LONG PINANG - GRT.04,0,0,0,CSV mentah observasi
+CAPTIVE,PT Malinau Hijau Lestari - TDP.01,0,0,0,CSV mentah observasi
+CAPTIVE,LOGPON - TLB.01,0,0,0,CSV mentah observasi
+CAPTIVE,MALL CENTRAL PARK - IND.07,0,0,0,CSV mentah observasi
+CAPTIVE,HOTEL HARIS - TKW.14,0,0,0,CSV mentah observasi
+CAPTIVE,PT Artha Tunggal Mandiri - TJR.06,0,0,0,CSV mentah observasi
+CAPTIVE,PT Karya Pacific Tehnik S - SBT.03,0,0,0,CSV mentah observasi
+CAPTIVE,PT SUMALINDO - HRB.02,0,0,0,CSV mentah observasi
+CAPTIVE,PT BAROKAH - SBT.06,0,0,0,CSV mentah observasi
+CAPTIVE,PT EUP - BTL.02,0,0,0,CSV mentah observasi
+CAPTIVE,PT CHAROEN POKPHAND  - MBD.04,0,0,0,CSV mentah observasi
+CAPTIVE,PT Menumbar Kaltim - SBT.03,0,0,0,CSV mentah observasi
+CAPTIVE,PT Lanna Harita Indonesia - SBT.04,0,0,0,CSV mentah observasi
+CAPTIVE,PT Pelayaran Mitra Kaltim - SBT.03,0,0,0,CSV mentah observasi
+UMUM,TOTAL,503,19,117,CSV mentah observasi
+UMUM,PT PERTAMINA RU-V SS11 - IND.14,24,15,3,CSV mentah observasi
+UMUM,PT MMP - KTT,23,19,5,CSV mentah observasi
+UMUM,PT KFI - KTT,22,22,1,CSV mentah observasi
+UMUM,PT BADAK LNG - TLP.05,14,10,3,CSV mentah observasi
+UMUM,PT KOBEXINDO - KTT,11,11,1,CSV mentah observasi
+UMUM,GRT.02,8,7,2,CSV mentah observasi
+UMUM,STA.02,8,8,1,CSV mentah observasi
+UMUM,KRJ.05,6,6,1,CSV mentah observasi
+UMUM,HRB.02,6,6,1,CSV mentah observasi
+UMUM,HRB.06,6,6,1,CSV mentah observasi
+UMUM,TKW.06,6,5,2,CSV mentah observasi
+UMUM,LGS.01,6,6,1,CSV mentah observasi
+UMUM,TLB.01,6,5,2,CSV mentah observasi
+UMUM,PT BKA 1 - HRB.09,6,6,1,CSV mentah observasi
+UMUM,PT BERAU COAL - TJR.06,6,6,1,CSV mentah observasi
+UMUM,IND.09,5,5,1,CSV mentah observasi
+UMUM,IND.10,5,4,2,CSV mentah observasi
+UMUM,SNP.04,5,5,1,CSV mentah observasi
+UMUM,KRO.03,5,5,1,CSV mentah observasi
+UMUM,KRO.04,5,5,1,CSV mentah observasi
+UMUM,PTG.04,5,5,1,CSV mentah observasi
+UMUM,TKW.09,5,4,2,CSV mentah observasi
+UMUM,BKN.09,5,5,1,CSV mentah observasi
+UMUM,BBR.06,5,5,1,CSV mentah observasi
+UMUM,SBT.04,5,5,1,CSV mentah observasi
+UMUM,SBT.05,5,5,1,CSV mentah observasi
+UMUM,TLP.03,5,5,1,CSV mentah observasi
+UMUM,TLP.07,5,4,2,CSV mentah observasi
+UMUM,BYR.03,5,5,1,CSV mentah observasi
+UMUM,BYR.04,5,5,1,CSV mentah observasi
+UMUM,NBA.05,5,5,1,CSV mentah observasi
+UMUM,GRT.01,5,5,1,CSV mentah observasi
+UMUM,GRT.10,5,5,1,CSV mentah observasi
+UMUM,SDI.04,5,5,1,CSV mentah observasi
+UMUM,PT Indexim - MLY.02,5,5,1,CSV mentah observasi
+UMUM,IND.01,4,4,1,CSV mentah observasi
+UMUM,MGS.02,4,4,1,CSV mentah observasi
+UMUM,KRJ.13,4,4,1,CSV mentah observasi
+UMUM,SNP.01,4,4,1,CSV mentah observasi
+UMUM,SNP.02,4,4,1,CSV mentah observasi
+UMUM,SNP.03,4,4,1,CSV mentah observasi
+UMUM,KRO.01,4,4,1,CSV mentah observasi
+UMUM,PTG.03,4,4,1,CSV mentah observasi
+UMUM,PTG.07,4,4,1,CSV mentah observasi
+UMUM,PTG.08,4,4,1,CSV mentah observasi
+UMUM,HRB.03,4,4,1,CSV mentah observasi
+UMUM,HRB.07,4,3,2,CSV mentah observasi
+UMUM,TKW.02,4,4,1,CSV mentah observasi
+UMUM,TKW.04,4,4,1,CSV mentah observasi
+UMUM,TKW.08,4,3,2,CSV mentah observasi
+UMUM,TKW.16,4,3,2,CSV mentah observasi
+UMUM,TKW.17,4,3,2,CSV mentah observasi
+UMUM,BKN.02,4,4,1,CSV mentah observasi
+UMUM,BKN.10,4,4,1,CSV mentah observasi
+UMUM,BBR.03,4,4,1,CSV mentah observasi
+UMUM,BBR.04,4,4,1,CSV mentah observasi
+UMUM,EBL.02,4,4,1,CSV mentah observasi
+UMUM,SBT.02,4,4,1,CSV mentah observasi
+UMUM,MBD.06,4,4,1,CSV mentah observasi
+UMUM,KTB.01,4,4,1,CSV mentah observasi
+UMUM,KTB.02,4,4,1,CSV mentah observasi
+UMUM,BYR.02,4,4,1,CSV mentah observasi
+UMUM,BYR.05,4,4,1,CSV mentah observasi
+UMUM,BYR.06,4,4,1,CSV mentah observasi
+UMUM,GRT.04,4,4,1,CSV mentah observasi
+UMUM,GRT.08,4,4,1,CSV mentah observasi
+UMUM,KOM.04,4,4,1,CSV mentah observasi
+UMUM,STA.04,4,4,1,CSV mentah observasi
+UMUM,GSK.06,4,4,1,CSV mentah observasi
+UMUM,MLY.01,4,4,1,CSV mentah observasi
+UMUM,TJR.06,4,3,2,CSV mentah observasi
+UMUM,TJS.05,4,3,2,CSV mentah observasi
+UMUM,TJS.07,4,4,1,CSV mentah observasi
+UMUM,PT ASIAN BERDIKARI CEMERLANG - BRU.02,4,4,1,CSV mentah observasi
+UMUM,IND.05,3,3,1,CSV mentah observasi
+UMUM,IND.06,3,3,1,CSV mentah observasi
+UMUM,IND.08,3,3,1,CSV mentah observasi
+UMUM,IND.12,3,3,1,CSV mentah observasi
+UMUM,MGS.05,3,3,1,CSV mentah observasi
+UMUM,KRJ.01,3,3,1,CSV mentah observasi
+UMUM,KRJ.12,3,3,1,CSV mentah observasi
+UMUM,HRB.04,3,3,1,CSV mentah observasi
+UMUM,HRB.05,3,3,1,CSV mentah observasi
+UMUM,HRB.08,3,3,1,CSV mentah observasi
+UMUM,TKW.01,3,3,1,CSV mentah observasi
+UMUM,TKW.10,3,3,1,CSV mentah observasi
+UMUM,TKW.11,3,3,1,CSV mentah observasi
+UMUM,TKW.15,3,3,1,CSV mentah observasi
+UMUM,BBR.01,3,3,1,CSV mentah observasi
+UMUM,EBL.01,3,3,1,CSV mentah observasi
+UMUM,SBT.01,3,3,1,CSV mentah observasi
+UMUM,SBT.03,3,3,1,CSV mentah observasi
+UMUM,SBT.06,3,3,1,CSV mentah observasi
+UMUM,MBD.03,3,3,1,CSV mentah observasi
+UMUM,BTG.02,3,3,1,CSV mentah observasi
+UMUM,BTG.04,3,3,1,CSV mentah observasi
+UMUM,KTB.04,3,3,1,CSV mentah observasi
+UMUM,NBA.01,3,3,1,CSV mentah observasi
+UMUM,NBA.06,3,3,1,CSV mentah observasi
+UMUM,NBA.09,3,3,1,CSV mentah observasi
+UMUM,NBA.13,3,3,1,CSV mentah observasi
+UMUM,KOM.01,3,3,1,CSV mentah observasi
+UMUM,KOM.03,3,3,1,CSV mentah observasi
+UMUM,LGS.02,3,3,1,CSV mentah observasi
+UMUM,SDI.02,3,3,1,CSV mentah observasi
+UMUM,MLY.02,3,3,1,CSV mentah observasi
+UMUM,MLY.03,3,3,1,CSV mentah observasi
+UMUM,MLY.04,3,3,1,CSV mentah observasi
+UMUM,MLY.05,3,3,1,CSV mentah observasi
+UMUM,TLY.01,3,3,1,CSV mentah observasi
+UMUM,TJR.02,3,3,1,CSV mentah observasi
+UMUM,TJS.04,3,3,1,CSV mentah observasi
+UMUM,TLS.03,3,3,1,CSV mentah observasi
+UMUM,PT IMM Port - BTL.03,3,3,1,CSV mentah observasi
+UMUM,PT PIK & PT KPC - MLY.04,3,3,1,CSV mentah observasi
+UMUM,PT SAMATOR - TLP.04,3,3,1,CSV mentah observasi
+UMUM,IND.03,2,2,1,CSV mentah observasi
+UMUM,IND.07,2,2,1,CSV mentah observasi
+UMUM,MGS.01,2,2,1,CSV mentah observasi
+UMUM,MGS.03,2,2,1,CSV mentah observasi
+UMUM,MGS.08,2,2,1,CSV mentah observasi
+UMUM,MGS.09,2,2,1,CSV mentah observasi
+UMUM,PTG.01,2,2,1,CSV mentah observasi
+UMUM,KAR.01,2,2,1,CSV mentah observasi
+UMUM,TKW.07,2,2,1,CSV mentah observasi
+UMUM,TKW.12,2,2,1,CSV mentah observasi
+UMUM,TKW.13,2,2,1,CSV mentah observasi
+UMUM,TKW.18,2,2,1,CSV mentah observasi
+UMUM,BBR.02,2,2,1,CSV mentah observasi
+UMUM,BBR.07,2,2,1,CSV mentah observasi
+UMUM,BBR.08,2,2,1,CSV mentah observasi
+UMUM,EBL.04,2,2,1,CSV mentah observasi
+UMUM,MBD.04,2,2,1,CSV mentah observasi
+UMUM,MBD.05,2,2,1,CSV mentah observasi
+UMUM,TLP.01,2,2,1,CSV mentah observasi
+UMUM,TLP.02,2,2,1,CSV mentah observasi
+UMUM,TLP.08,2,2,1,CSV mentah observasi
+UMUM,BTG.05,2,2,1,CSV mentah observasi
+UMUM,KTB.03,2,2,1,CSV mentah observasi
+UMUM,BYR.01,2,2,1,CSV mentah observasi
+UMUM,NBA.02,2,2,1,CSV mentah observasi
+UMUM,NBA.10,2,2,1,CSV mentah observasi
+UMUM,KOM.02,2,2,1,CSV mentah observasi
+UMUM,STA.03,2,2,1,CSV mentah observasi
+UMUM,STA.05,2,2,1,CSV mentah observasi
+UMUM,TJR.03,2,2,1,CSV mentah observasi
+UMUM,CB.31,2,2,1,CSV mentah observasi
+UMUM,CB.33,2,2,1,CSV mentah observasi
+UMUM,BRU.02,2,2,1,CSV mentah observasi
+UMUM,PT PERTAMINA HULU MAHAKAM - SNP.01,2,2,1,CSV mentah observasi
+UMUM,PT PERTAMINA - STA.04,2,2,1,CSV mentah observasi
+UMUM,IND.02,1,1,1,CSV mentah observasi
+UMUM,IND.13,1,1,1,CSV mentah observasi
+UMUM,MGS.06,1,1,1,CSV mentah observasi
+UMUM,KRJ.03,1,1,1,CSV mentah observasi
+UMUM,KRJ.06,1,1,1,CSV mentah observasi
+UMUM,TKW.14,1,1,1,CSV mentah observasi
+UMUM,BKN.03,1,1,1,CSV mentah observasi
+UMUM,BKN.05,1,1,1,CSV mentah observasi
+UMUM,BBR.05,1,1,1,CSV mentah observasi
+UMUM,BTG.01,1,1,1,CSV mentah observasi
+UMUM,KTB.05,1,1,1,CSV mentah observasi
+UMUM,BTL.03,1,1,1,CSV mentah observasi
+UMUM,NBA.03,1,1,1,CSV mentah observasi
+UMUM,GRT.03,1,1,1,CSV mentah observasi
+UMUM,MJW.01,1,1,1,CSV mentah observasi
+UMUM,NST.03,1,1,1,CSV mentah observasi
+UMUM,NST.05,1,1,1,CSV mentah observasi
+UMUM,TLY.06,1,1,1,CSV mentah observasi
+UMUM,TJR.07,1,1,1,CSV mentah observasi
+UMUM,TDP.02,1,1,1,CSV mentah observasi
+UMUM,BRU.04,1,1,1,CSV mentah observasi
+UMUM,PT BKA 2 - HRB.10,1,1,1,CSV mentah observasi
+UMUM,PT GAM - MLY.05,1,1,1,CSV mentah observasi
+UMUM,PT MMP 2 - KTT,1,1,1,CSV mentah observasi
+UMUM,IND.04,0,0,0,CSV mentah observasi
+UMUM,IND.11,0,0,0,CSV mentah observasi
+UMUM,IND.14,0,0,0,CSV mentah observasi
+UMUM,IND.15,0,0,0,CSV mentah observasi
+UMUM,IND.16,0,0,0,CSV mentah observasi
+UMUM,MGS.04,0,0,0,CSV mentah observasi
+UMUM,MGS.07,0,0,0,CSV mentah observasi
+UMUM,MGS.10,0,0,0,CSV mentah observasi
+UMUM,MGS.19,0,0,0,CSV mentah observasi
+UMUM,KRO.02,0,0,0,CSV mentah observasi
+UMUM,PTG.12,0,0,0,CSV mentah observasi
+UMUM,KAR.02,0,0,0,CSV mentah observasi
+UMUM,KAR.03,0,0,0,CSV mentah observasi
+UMUM,KAR.04,0,0,0,CSV mentah observasi
+UMUM,KAR.05,0,0,0,CSV mentah observasi
+UMUM,KAR.06,0,0,0,CSV mentah observasi
+UMUM,HRB.09,0,0,0,CSV mentah observasi
+UMUM,HRB.10,0,0,0,CSV mentah observasi
+UMUM,TKW.19,0,0,0,CSV mentah observasi
+UMUM,EBL.03,0,0,0,CSV mentah observasi
+UMUM,MBD.07,0,0,0,CSV mentah observasi
+UMUM,TLP.04,0,0,0,CSV mentah observasi
+UMUM,TLP.05,0,0,0,CSV mentah observasi
+UMUM,TLP.06,0,0,0,CSV mentah observasi
+UMUM,BTG.03,0,0,0,CSV mentah observasi
+UMUM,BTL.01,0,0,0,CSV mentah observasi
+UMUM,BTL.02,0,0,0,CSV mentah observasi
+UMUM,NBA.04,0,0,0,CSV mentah observasi
+UMUM,NBA.14,0,0,0,CSV mentah observasi
+UMUM,GRT.05,0,0,0,CSV mentah observasi
+UMUM,GRT.06,0,0,0,CSV mentah observasi
+UMUM,GRT.07,0,0,0,CSV mentah observasi
+UMUM,GRT.09,0,0,0,CSV mentah observasi
+UMUM,GRT.11,0,0,0,CSV mentah observasi
+UMUM,GRT.12,0,0,0,CSV mentah observasi
+UMUM,KOM.05,0,0,0,CSV mentah observasi
+UMUM,KOM.06,0,0,0,CSV mentah observasi
+UMUM,LGS.03,0,0,0,CSV mentah observasi
+UMUM,LGS.04,0,0,0,CSV mentah observasi
+UMUM,LGS.05,0,0,0,CSV mentah observasi
+UMUM,LGS.06,0,0,0,CSV mentah observasi
+UMUM,MJW.02,0,0,0,CSV mentah observasi
+UMUM,MJW.03,0,0,0,CSV mentah observasi
+UMUM,MJW.04,0,0,0,CSV mentah observasi
+UMUM,MJW.05,0,0,0,CSV mentah observasi
+UMUM,MJW.06,0,0,0,CSV mentah observasi
+UMUM,STA.01,0,0,0,CSV mentah observasi
+UMUM,STA.06,0,0,0,CSV mentah observasi
+UMUM,STA.07,0,0,0,CSV mentah observasi
+UMUM,STA.08,0,0,0,CSV mentah observasi
+UMUM,STA.09,0,0,0,CSV mentah observasi
+UMUM,STA.10,0,0,0,CSV mentah observasi
+UMUM,SDI.01,0,0,0,CSV mentah observasi
+UMUM,SDI.03,0,0,0,CSV mentah observasi
+UMUM,GSK.01,0,0,0,CSV mentah observasi
+UMUM,GSK.02,0,0,0,CSV mentah observasi
+UMUM,GSK.03,0,0,0,CSV mentah observasi
+UMUM,GSK.04,0,0,0,CSV mentah observasi
+UMUM,GSK.05,0,0,0,CSV mentah observasi
+UMUM,NST.01,0,0,0,CSV mentah observasi
+UMUM,NST.02,0,0,0,CSV mentah observasi
+UMUM,NST.04,0,0,0,CSV mentah observasi
+UMUM,TPD.01,0,0,0,CSV mentah observasi
+UMUM,TPD.02,0,0,0,CSV mentah observasi
+UMUM,TJR.09,0,0,0,CSV mentah observasi
+UMUM,TLB.02,0,0,0,CSV mentah observasi
+UMUM,TDP.01,0,0,0,CSV mentah observasi
+UMUM,BRU.05,0,0,0,CSV mentah observasi
+UMUM,TJS.01,0,0,0,CSV mentah observasi
+UMUM,TJS.06,0,0,0,CSV mentah observasi
+UMUM,SLR.02,0,0,0,CSV mentah observasi
+UMUM,SLR.03,0,0,0,CSV mentah observasi
+UMUM,SLR.04,0,0,0,CSV mentah observasi
+UMUM,SLR.05,0,0,0,CSV mentah observasi
+UMUM,PT PERTAMINA RU-V SS11 - IND.15,0,0,0,CSV mentah observasi
+UMUM,TLB.01 LBS BJU,0,0,0,CSV mentah observasi
+UMUM,BRU.05 PT ABC,0,0,0,CSV mentah observasi
+UMUM,TJR.06 PT BC SMO,0,0,0,CSV mentah observasi
+UMUM,TLB.01 MESS PAMAPERSADA,0,0,0,CSV mentah observasi
+UMUM,TJR.06 PT ATM,0,0,0,CSV mentah observasi
+UMUM,TJR.07 UNITED TRACTOR,0,0,0,CSV mentah observasi
+UMUM,TKW.13 PT KALAMUR,0,0,0,CSV mentah observasi
+UMUM,SBT.03 PT. MKS,0,0,0,CSV mentah observasi
+UMUM,SBT.03 PT. KSA,0,0,0,CSV mentah observasi
+UMUM,TKW.06 PDAM TELUK TERONG,0,0,0,CSV mentah observasi
+UMUM,PROYEK PSPAB PDAM - KRJ.06,0,0,0,CSV mentah observasi
+UMUM,PT MEGAH HIJAU LESTARI - PTG.08,0,0,0,CSV mentah observasi
+UMUM,PKS SAMUNTAI - KRO.04,0,0,0,CSV mentah observasi
+UMUM,PT KUARINDO PRATAMA JAYA - GRT.08,0,0,0,CSV mentah observasi
+UMUM,PT BENAKUTAI - IND.03,0,0,0,CSV mentah observasi
+UMUM,PT SANGGAR SARANA BAJA - KAR.01,0,0,0,CSV mentah observasi
+UMUM,PT SEMERU SURYA SEMEN - MJW.01,0,0,0,CSV mentah observasi
+UMUM,PT SEMESTA PERTAMBANGAN - GRT.08,0,0,0,CSV mentah observasi
+UMUM,PT IMM - TLP.07,0,0,0,CSV mentah observasi
+UMUM,YYS DANA PENSIUN BRI - IND.07,0,0,0,CSV mentah observasi
+UMUM,PT HEXINDO ADIPERKASA TBK - MGS.02,0,0,0,CSV mentah observasi
+UMUM,PT BALIKPAPAN READY MIX - KAR.01,0,0,0,CSV mentah observasi
+UMUM,PT TRAKINDO UTAMA - KAR.01,0,0,0,CSV mentah observasi
+UMUM,PKS LONG PINANG - GRT.04,0,0,0,CSV mentah observasi
+UMUM,PT Malinau Hijau Lestari - TDP.01,0,0,0,CSV mentah observasi
+UMUM,LOGPON - TLB.01,0,0,0,CSV mentah observasi
+UMUM,MALL CENTRAL PARK - IND.07,0,0,0,CSV mentah observasi
+UMUM,HOTEL HARIS - TKW.14,0,0,0,CSV mentah observasi
+UMUM,PT Artha Tunggal Mandiri - TJR.06,0,0,0,CSV mentah observasi
+UMUM,PT Karya Pacific Tehnik S - SBT.03,0,0,0,CSV mentah observasi
+UMUM,PT SUMALINDO - HRB.02,0,0,0,CSV mentah observasi
+UMUM,PT BAROKAH - SBT.06,0,0,0,CSV mentah observasi
+UMUM,PT EUP - BTL.02,0,0,0,CSV mentah observasi
+UMUM,PT CHAROEN POKPHAND  - MBD.04,0,0,0,CSV mentah observasi
+UMUM,PT Menumbar Kaltim - SBT.03,0,0,0,CSV mentah observasi
+UMUM,PT Lanna Harita Indonesia - SBT.04,0,0,0,CSV mentah observasi
+UMUM,PT Pelayaran Mitra Kaltim - SBT.03,0,0,0,CSV mentah observasi
