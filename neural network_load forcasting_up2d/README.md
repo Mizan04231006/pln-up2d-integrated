@@ -125,3 +125,26 @@ Interpretasi data:
 Dengan demikian, hasil ini cocok untuk forecasting beban padam berbasis estimasi,
 bukan pengganti data SCADA. Kolom `Sumber_Data` wajib dipertahankan agar hasil
 observasi dan estimasi tidak tertukar dalam laporan.
+
+## Training Model Beban Padam
+
+Setelah menjalankan `04_prepare_outage_load_data.py`, latih dua konfigurasi
+neural network dengan:
+
+```bash
+python "05_train_outage_model.py"
+```
+
+Model dilatih dari `data_beban_padam_up2d.csv` dengan window 24 jam dan split
+kronologis 80% training / 20% testing. Hasilnya:
+
+- `backend/model/outage_model_setting_1.pkl`
+- `backend/model/outage_model_setting_2.pkl`
+- `backend/model/outage_scaler_beban.pkl`
+- `backend/model/outage_scaler_fitur.pkl`
+- `backend/data/outage_model_evaluation.json`
+- `backend/data/outage_model_comparison.csv`
+
+Setting 1 dan Setting 2 memakai arsitektur yang sama dengan eksperimen model
+sebelumnya. MAPE dihitung hanya untuk target beban padam non-zero karena nilai
+padam nol membuat MAPE tidak bermakna.

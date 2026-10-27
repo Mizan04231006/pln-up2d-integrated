@@ -1,0 +1,2079 @@
+{
+  "dataset": {
+    "source": "D:\\pln-up2d-integrated backup\\backend\\data\\data_beban_padam_up2d.csv",
+    "rows": 17497,
+    "window_hours": 24,
+    "features": [
+      "Beban_MW",
+      "Suhu_C",
+      "Jam",
+      "Hari_Minggu",
+      "Bulan",
+      "Adalah_Libur"
+    ],
+    "train_samples": 13978,
+    "test_samples": 3495,
+    "split": "chronological_80_20"
+  },
+  "models": {
+    "setting_1": {
+      "label": "Setting 1",
+      "architecture": [
+        64,
+        32
+      ],
+      "epochs": 67,
+      "metrics": {
+        "mape": 19.4536,
+        "rmse_mw": 0.1115,
+        "mae_mw": 0.0219,
+        "r2": 0.769029,
+        "actual_min_mw": 0.0,
+        "actual_max_mw": 6.19,
+        "predicted_min_mw": 0.0,
+        "predicted_max_mw": 2.0899
+      },
+      "sample": [
+        {
+          "index": 13978,
+          "waktu": "2023-08-07 10:00",
+          "aktual_mw": 0.296,
+          "prediksi_mw": 0.3
+        },
+        {
+          "index": 13979,
+          "waktu": "2023-08-07 11:00",
+          "aktual_mw": 0.288,
+          "prediksi_mw": 0.3083
+        },
+        {
+          "index": 13980,
+          "waktu": "2023-08-07 12:00",
+          "aktual_mw": 0.29,
+          "prediksi_mw": 0.3184
+        },
+        {
+          "index": 13981,
+          "waktu": "2023-08-07 13:00",
+          "aktual_mw": 0.304,
+          "prediksi_mw": 0.3088
+        },
+        {
+          "index": 13982,
+          "waktu": "2023-08-07 14:00",
+          "aktual_mw": 0.303,
+          "prediksi_mw": 0.3161
+        },
+        {
+          "index": 13983,
+          "waktu": "2023-08-07 15:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3279
+        },
+        {
+          "index": 13984,
+          "waktu": "2023-08-07 16:00",
+          "aktual_mw": 0.308,
+          "prediksi_mw": 0.3209
+        },
+        {
+          "index": 13985,
+          "waktu": "2023-08-07 17:00",
+          "aktual_mw": 0.338,
+          "prediksi_mw": 0.3379
+        },
+        {
+          "index": 13986,
+          "waktu": "2023-08-07 18:00",
+          "aktual_mw": 0.339,
+          "prediksi_mw": 0.3434
+        },
+        {
+          "index": 13987,
+          "waktu": "2023-08-07 19:00",
+          "aktual_mw": 0.344,
+          "prediksi_mw": 0.3485
+        },
+        {
+          "index": 13988,
+          "waktu": "2023-08-07 20:00",
+          "aktual_mw": 0.341,
+          "prediksi_mw": 0.353
+        },
+        {
+          "index": 13989,
+          "waktu": "2023-08-07 21:00",
+          "aktual_mw": 0.366,
+          "prediksi_mw": 0.3551
+        },
+        {
+          "index": 13990,
+          "waktu": "2023-08-07 22:00",
+          "aktual_mw": 0.315,
+          "prediksi_mw": 0.3257
+        },
+        {
+          "index": 13991,
+          "waktu": "2023-08-07 23:00",
+          "aktual_mw": 0.289,
+          "prediksi_mw": 0.2887
+        },
+        {
+          "index": 13992,
+          "waktu": "2023-08-08 00:00",
+          "aktual_mw": 0.207,
+          "prediksi_mw": 0.2029
+        },
+        {
+          "index": 13993,
+          "waktu": "2023-08-08 01:00",
+          "aktual_mw": 0.214,
+          "prediksi_mw": 0.2017
+        },
+        {
+          "index": 13994,
+          "waktu": "2023-08-08 02:00",
+          "aktual_mw": 0.209,
+          "prediksi_mw": 0.2104
+        },
+        {
+          "index": 13995,
+          "waktu": "2023-08-08 03:00",
+          "aktual_mw": 0.214,
+          "prediksi_mw": 0.2091
+        },
+        {
+          "index": 13996,
+          "waktu": "2023-08-08 04:00",
+          "aktual_mw": 0.212,
+          "prediksi_mw": 0.2113
+        },
+        {
+          "index": 13997,
+          "waktu": "2023-08-08 05:00",
+          "aktual_mw": 0.215,
+          "prediksi_mw": 0.2156
+        },
+        {
+          "index": 13998,
+          "waktu": "2023-08-08 06:00",
+          "aktual_mw": 0.227,
+          "prediksi_mw": 0.2287
+        },
+        {
+          "index": 13999,
+          "waktu": "2023-08-08 07:00",
+          "aktual_mw": 0.251,
+          "prediksi_mw": 0.2492
+        },
+        {
+          "index": 14000,
+          "waktu": "2023-08-08 08:00",
+          "aktual_mw": 0.265,
+          "prediksi_mw": 0.2664
+        },
+        {
+          "index": 14001,
+          "waktu": "2023-08-08 09:00",
+          "aktual_mw": 0.287,
+          "prediksi_mw": 0.2883
+        },
+        {
+          "index": 14002,
+          "waktu": "2023-08-08 10:00",
+          "aktual_mw": 0.291,
+          "prediksi_mw": 0.2912
+        },
+        {
+          "index": 14003,
+          "waktu": "2023-08-08 11:00",
+          "aktual_mw": 0.291,
+          "prediksi_mw": 0.3012
+        },
+        {
+          "index": 14004,
+          "waktu": "2023-08-08 12:00",
+          "aktual_mw": 0.288,
+          "prediksi_mw": 0.2928
+        },
+        {
+          "index": 14005,
+          "waktu": "2023-08-08 13:00",
+          "aktual_mw": 0.31,
+          "prediksi_mw": 0.3019
+        },
+        {
+          "index": 14006,
+          "waktu": "2023-08-08 14:00",
+          "aktual_mw": 0.299,
+          "prediksi_mw": 0.3044
+        },
+        {
+          "index": 14007,
+          "waktu": "2023-08-08 15:00",
+          "aktual_mw": 0.303,
+          "prediksi_mw": 0.3023
+        },
+        {
+          "index": 14008,
+          "waktu": "2023-08-08 16:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3039
+        },
+        {
+          "index": 14009,
+          "waktu": "2023-08-08 17:00",
+          "aktual_mw": 0.336,
+          "prediksi_mw": 0.3272
+        },
+        {
+          "index": 14010,
+          "waktu": "2023-08-08 18:00",
+          "aktual_mw": 0.332,
+          "prediksi_mw": 0.3319
+        },
+        {
+          "index": 14011,
+          "waktu": "2023-08-08 19:00",
+          "aktual_mw": 0.335,
+          "prediksi_mw": 0.3422
+        },
+        {
+          "index": 14012,
+          "waktu": "2023-08-08 20:00",
+          "aktual_mw": 0.359,
+          "prediksi_mw": 0.3492
+        },
+        {
+          "index": 14013,
+          "waktu": "2023-08-08 21:00",
+          "aktual_mw": 0.357,
+          "prediksi_mw": 0.3538
+        },
+        {
+          "index": 14014,
+          "waktu": "2023-08-08 22:00",
+          "aktual_mw": 0.326,
+          "prediksi_mw": 0.3304
+        },
+        {
+          "index": 14015,
+          "waktu": "2023-08-08 23:00",
+          "aktual_mw": 0.295,
+          "prediksi_mw": 0.2884
+        },
+        {
+          "index": 14016,
+          "waktu": "2023-08-09 00:00",
+          "aktual_mw": 0.196,
+          "prediksi_mw": 0.2075
+        },
+        {
+          "index": 14017,
+          "waktu": "2023-08-09 01:00",
+          "aktual_mw": 0.201,
+          "prediksi_mw": 0.2018
+        },
+        {
+          "index": 14018,
+          "waktu": "2023-08-09 02:00",
+          "aktual_mw": 0.226,
+          "prediksi_mw": 0.2113
+        },
+        {
+          "index": 14019,
+          "waktu": "2023-08-09 03:00",
+          "aktual_mw": 0.214,
+          "prediksi_mw": 0.207
+        },
+        {
+          "index": 14020,
+          "waktu": "2023-08-09 04:00",
+          "aktual_mw": 0.22,
+          "prediksi_mw": 0.2105
+        },
+        {
+          "index": 14021,
+          "waktu": "2023-08-09 05:00",
+          "aktual_mw": 0.214,
+          "prediksi_mw": 0.2137
+        },
+        {
+          "index": 14022,
+          "waktu": "2023-08-09 06:00",
+          "aktual_mw": 0.24,
+          "prediksi_mw": 0.2285
+        },
+        {
+          "index": 14023,
+          "waktu": "2023-08-09 07:00",
+          "aktual_mw": 0.251,
+          "prediksi_mw": 0.2496
+        },
+        {
+          "index": 14024,
+          "waktu": "2023-08-09 08:00",
+          "aktual_mw": 0.254,
+          "prediksi_mw": 0.2683
+        },
+        {
+          "index": 14025,
+          "waktu": "2023-08-09 09:00",
+          "aktual_mw": 0.28,
+          "prediksi_mw": 0.2812
+        },
+        {
+          "index": 14026,
+          "waktu": "2023-08-09 10:00",
+          "aktual_mw": 0.288,
+          "prediksi_mw": 0.2909
+        },
+        {
+          "index": 14027,
+          "waktu": "2023-08-09 11:00",
+          "aktual_mw": 0.294,
+          "prediksi_mw": 0.2995
+        },
+        {
+          "index": 14028,
+          "waktu": "2023-08-09 12:00",
+          "aktual_mw": 0.297,
+          "prediksi_mw": 0.2925
+        },
+        {
+          "index": 14029,
+          "waktu": "2023-08-09 13:00",
+          "aktual_mw": 0.302,
+          "prediksi_mw": 0.3036
+        },
+        {
+          "index": 14030,
+          "waktu": "2023-08-09 14:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3064
+        },
+        {
+          "index": 14031,
+          "waktu": "2023-08-09 15:00",
+          "aktual_mw": 0.308,
+          "prediksi_mw": 0.308
+        },
+        {
+          "index": 14032,
+          "waktu": "2023-08-09 16:00",
+          "aktual_mw": 0.3,
+          "prediksi_mw": 0.3072
+        },
+        {
+          "index": 14033,
+          "waktu": "2023-08-09 17:00",
+          "aktual_mw": 0.32,
+          "prediksi_mw": 0.3297
+        },
+        {
+          "index": 14034,
+          "waktu": "2023-08-09 18:00",
+          "aktual_mw": 0.345,
+          "prediksi_mw": 0.331
+        },
+        {
+          "index": 14035,
+          "waktu": "2023-08-09 19:00",
+          "aktual_mw": 0.345,
+          "prediksi_mw": 0.3466
+        },
+        {
+          "index": 14036,
+          "waktu": "2023-08-09 20:00",
+          "aktual_mw": 0.366,
+          "prediksi_mw": 0.35
+        },
+        {
+          "index": 14037,
+          "waktu": "2023-08-09 21:00",
+          "aktual_mw": 0.359,
+          "prediksi_mw": 0.3579
+        },
+        {
+          "index": 14038,
+          "waktu": "2023-08-09 22:00",
+          "aktual_mw": 0.319,
+          "prediksi_mw": 0.3317
+        },
+        {
+          "index": 14039,
+          "waktu": "2023-08-09 23:00",
+          "aktual_mw": 0.283,
+          "prediksi_mw": 0.2924
+        },
+        {
+          "index": 14040,
+          "waktu": "2023-08-10 00:00",
+          "aktual_mw": 0.199,
+          "prediksi_mw": 0.2076
+        },
+        {
+          "index": 14041,
+          "waktu": "2023-08-10 01:00",
+          "aktual_mw": 0.211,
+          "prediksi_mw": 0.2028
+        },
+        {
+          "index": 14042,
+          "waktu": "2023-08-10 02:00",
+          "aktual_mw": 0.219,
+          "prediksi_mw": 0.2062
+        },
+        {
+          "index": 14043,
+          "waktu": "2023-08-10 03:00",
+          "aktual_mw": 0.212,
+          "prediksi_mw": 0.2074
+        },
+        {
+          "index": 14044,
+          "waktu": "2023-08-10 04:00",
+          "aktual_mw": 0.209,
+          "prediksi_mw": 0.2092
+        },
+        {
+          "index": 14045,
+          "waktu": "2023-08-10 05:00",
+          "aktual_mw": 0.212,
+          "prediksi_mw": 0.2134
+        },
+        {
+          "index": 14046,
+          "waktu": "2023-08-10 06:00",
+          "aktual_mw": 0.231,
+          "prediksi_mw": 0.2274
+        },
+        {
+          "index": 14047,
+          "waktu": "2023-08-10 07:00",
+          "aktual_mw": 0.249,
+          "prediksi_mw": 0.2471
+        },
+        {
+          "index": 14048,
+          "waktu": "2023-08-10 08:00",
+          "aktual_mw": 0.27,
+          "prediksi_mw": 0.2646
+        },
+        {
+          "index": 14049,
+          "waktu": "2023-08-10 09:00",
+          "aktual_mw": 0.291,
+          "prediksi_mw": 0.2839
+        },
+        {
+          "index": 14050,
+          "waktu": "2023-08-10 10:00",
+          "aktual_mw": 0.292,
+          "prediksi_mw": 0.2914
+        },
+        {
+          "index": 14051,
+          "waktu": "2023-08-10 11:00",
+          "aktual_mw": 0.294,
+          "prediksi_mw": 0.3023
+        },
+        {
+          "index": 14052,
+          "waktu": "2023-08-10 12:00",
+          "aktual_mw": 0.292,
+          "prediksi_mw": 0.2959
+        },
+        {
+          "index": 14053,
+          "waktu": "2023-08-10 13:00",
+          "aktual_mw": 0.294,
+          "prediksi_mw": 0.3078
+        },
+        {
+          "index": 14054,
+          "waktu": "2023-08-10 14:00",
+          "aktual_mw": 0.318,
+          "prediksi_mw": 0.3098
+        },
+        {
+          "index": 14055,
+          "waktu": "2023-08-10 15:00",
+          "aktual_mw": 0.294,
+          "prediksi_mw": 0.3093
+        },
+        {
+          "index": 14056,
+          "waktu": "2023-08-10 16:00",
+          "aktual_mw": 0.297,
+          "prediksi_mw": 0.3081
+        },
+        {
+          "index": 14057,
+          "waktu": "2023-08-10 17:00",
+          "aktual_mw": 0.343,
+          "prediksi_mw": 0.3307
+        },
+        {
+          "index": 14058,
+          "waktu": "2023-08-10 18:00",
+          "aktual_mw": 0.336,
+          "prediksi_mw": 0.3381
+        },
+        {
+          "index": 14059,
+          "waktu": "2023-08-10 19:00",
+          "aktual_mw": 0.335,
+          "prediksi_mw": 0.3481
+        },
+        {
+          "index": 14060,
+          "waktu": "2023-08-10 20:00",
+          "aktual_mw": 0.357,
+          "prediksi_mw": 0.3507
+        },
+        {
+          "index": 14061,
+          "waktu": "2023-08-10 21:00",
+          "aktual_mw": 0.364,
+          "prediksi_mw": 0.3602
+        },
+        {
+          "index": 14062,
+          "waktu": "2023-08-10 22:00",
+          "aktual_mw": 0.324,
+          "prediksi_mw": 0.3343
+        },
+        {
+          "index": 14063,
+          "waktu": "2023-08-10 23:00",
+          "aktual_mw": 0.286,
+          "prediksi_mw": 0.2953
+        },
+        {
+          "index": 14064,
+          "waktu": "2023-08-11 00:00",
+          "aktual_mw": 0.202,
+          "prediksi_mw": 0.2103
+        },
+        {
+          "index": 14065,
+          "waktu": "2023-08-11 01:00",
+          "aktual_mw": 0.202,
+          "prediksi_mw": 0.2085
+        },
+        {
+          "index": 14066,
+          "waktu": "2023-08-11 02:00",
+          "aktual_mw": 0.212,
+          "prediksi_mw": 0.2089
+        },
+        {
+          "index": 14067,
+          "waktu": "2023-08-11 03:00",
+          "aktual_mw": 0.219,
+          "prediksi_mw": 0.2056
+        },
+        {
+          "index": 14068,
+          "waktu": "2023-08-11 04:00",
+          "aktual_mw": 0.203,
+          "prediksi_mw": 0.2121
+        },
+        {
+          "index": 14069,
+          "waktu": "2023-08-11 05:00",
+          "aktual_mw": 0.215,
+          "prediksi_mw": 0.209
+        },
+        {
+          "index": 14070,
+          "waktu": "2023-08-11 06:00",
+          "aktual_mw": 0.236,
+          "prediksi_mw": 0.2315
+        },
+        {
+          "index": 14071,
+          "waktu": "2023-08-11 07:00",
+          "aktual_mw": 0.241,
+          "prediksi_mw": 0.2473
+        },
+        {
+          "index": 14072,
+          "waktu": "2023-08-11 08:00",
+          "aktual_mw": 0.267,
+          "prediksi_mw": 0.2617
+        },
+        {
+          "index": 14073,
+          "waktu": "2023-08-11 09:00",
+          "aktual_mw": 0.292,
+          "prediksi_mw": 0.2836
+        },
+        {
+          "index": 14074,
+          "waktu": "2023-08-11 10:00",
+          "aktual_mw": 0.283,
+          "prediksi_mw": 0.2914
+        },
+        {
+          "index": 14075,
+          "waktu": "2023-08-11 11:00",
+          "aktual_mw": 0.284,
+          "prediksi_mw": 0.299
+        },
+        {
+          "index": 14076,
+          "waktu": "2023-08-11 12:00",
+          "aktual_mw": 0.302,
+          "prediksi_mw": 0.2983
+        },
+        {
+          "index": 14077,
+          "waktu": "2023-08-11 13:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3109
+        },
+        {
+          "index": 14078,
+          "waktu": "2023-08-11 14:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3117
+        },
+        {
+          "index": 14079,
+          "waktu": "2023-08-11 15:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3098
+        },
+        {
+          "index": 14080,
+          "waktu": "2023-08-11 16:00",
+          "aktual_mw": 0.313,
+          "prediksi_mw": 0.3075
+        },
+        {
+          "index": 14081,
+          "waktu": "2023-08-11 17:00",
+          "aktual_mw": 0.334,
+          "prediksi_mw": 0.3351
+        },
+        {
+          "index": 14082,
+          "waktu": "2023-08-11 18:00",
+          "aktual_mw": 0.344,
+          "prediksi_mw": 0.3405
+        },
+        {
+          "index": 14083,
+          "waktu": "2023-08-11 19:00",
+          "aktual_mw": 0.341,
+          "prediksi_mw": 0.3488
+        },
+        {
+          "index": 14084,
+          "waktu": "2023-08-11 20:00",
+          "aktual_mw": 0.345,
+          "prediksi_mw": 0.3516
+        },
+        {
+          "index": 14085,
+          "waktu": "2023-08-11 21:00",
+          "aktual_mw": 0.356,
+          "prediksi_mw": 0.3592
+        },
+        {
+          "index": 14086,
+          "waktu": "2023-08-11 22:00",
+          "aktual_mw": 0.33,
+          "prediksi_mw": 0.3342
+        },
+        {
+          "index": 14087,
+          "waktu": "2023-08-11 23:00",
+          "aktual_mw": 0.29,
+          "prediksi_mw": 0.2964
+        },
+        {
+          "index": 14088,
+          "waktu": "2023-08-12 00:00",
+          "aktual_mw": 0.188,
+          "prediksi_mw": 0.2087
+        },
+        {
+          "index": 14089,
+          "waktu": "2023-08-12 01:00",
+          "aktual_mw": 0.188,
+          "prediksi_mw": 0.1937
+        },
+        {
+          "index": 14090,
+          "waktu": "2023-08-12 02:00",
+          "aktual_mw": 0.186,
+          "prediksi_mw": 0.1904
+        },
+        {
+          "index": 14091,
+          "waktu": "2023-08-12 03:00",
+          "aktual_mw": 0.206,
+          "prediksi_mw": 0.1847
+        },
+        {
+          "index": 14092,
+          "waktu": "2023-08-12 04:00",
+          "aktual_mw": 0.2,
+          "prediksi_mw": 0.1986
+        },
+        {
+          "index": 14093,
+          "waktu": "2023-08-12 05:00",
+          "aktual_mw": 0.204,
+          "prediksi_mw": 0.2031
+        },
+        {
+          "index": 14094,
+          "waktu": "2023-08-12 06:00",
+          "aktual_mw": 0.205,
+          "prediksi_mw": 0.2158
+        },
+        {
+          "index": 14095,
+          "waktu": "2023-08-12 07:00",
+          "aktual_mw": 0.231,
+          "prediksi_mw": 0.2315
+        },
+        {
+          "index": 14096,
+          "waktu": "2023-08-12 08:00",
+          "aktual_mw": 0.234,
+          "prediksi_mw": 0.244
+        },
+        {
+          "index": 14097,
+          "waktu": "2023-08-12 09:00",
+          "aktual_mw": 0.259,
+          "prediksi_mw": 0.2649
+        },
+        {
+          "index": 14098,
+          "waktu": "2023-08-12 10:00",
+          "aktual_mw": 0.262,
+          "prediksi_mw": 0.2644
+        },
+        {
+          "index": 14099,
+          "waktu": "2023-08-12 11:00",
+          "aktual_mw": 0.264,
+          "prediksi_mw": 0.2602
+        },
+        {
+          "index": 14100,
+          "waktu": "2023-08-12 12:00",
+          "aktual_mw": 0.269,
+          "prediksi_mw": 0.2771
+        },
+        {
+          "index": 14101,
+          "waktu": "2023-08-12 13:00",
+          "aktual_mw": 0.276,
+          "prediksi_mw": 0.274
+        },
+        {
+          "index": 14102,
+          "waktu": "2023-08-12 14:00",
+          "aktual_mw": 0.287,
+          "prediksi_mw": 0.2849
+        },
+        {
+          "index": 14103,
+          "waktu": "2023-08-12 15:00",
+          "aktual_mw": 0.289,
+          "prediksi_mw": 0.2765
+        },
+        {
+          "index": 14104,
+          "waktu": "2023-08-12 16:00",
+          "aktual_mw": 0.284,
+          "prediksi_mw": 0.2748
+        },
+        {
+          "index": 14105,
+          "waktu": "2023-08-12 17:00",
+          "aktual_mw": 0.308,
+          "prediksi_mw": 0.2994
+        },
+        {
+          "index": 14106,
+          "waktu": "2023-08-12 18:00",
+          "aktual_mw": 0.312,
+          "prediksi_mw": 0.3061
+        },
+        {
+          "index": 14107,
+          "waktu": "2023-08-12 19:00",
+          "aktual_mw": 0.319,
+          "prediksi_mw": 0.318
+        },
+        {
+          "index": 14108,
+          "waktu": "2023-08-12 20:00",
+          "aktual_mw": 0.337,
+          "prediksi_mw": 0.3305
+        },
+        {
+          "index": 14109,
+          "waktu": "2023-08-12 21:00",
+          "aktual_mw": 0.317,
+          "prediksi_mw": 0.3328
+        },
+        {
+          "index": 14110,
+          "waktu": "2023-08-12 22:00",
+          "aktual_mw": 0.296,
+          "prediksi_mw": 0.3087
+        },
+        {
+          "index": 14111,
+          "waktu": "2023-08-12 23:00",
+          "aktual_mw": 0.266,
+          "prediksi_mw": 0.2705
+        },
+        {
+          "index": 14112,
+          "waktu": "2023-08-13 00:00",
+          "aktual_mw": 0.187,
+          "prediksi_mw": 0.1953
+        },
+        {
+          "index": 14113,
+          "waktu": "2023-08-13 01:00",
+          "aktual_mw": 0.192,
+          "prediksi_mw": 0.1866
+        },
+        {
+          "index": 14114,
+          "waktu": "2023-08-13 02:00",
+          "aktual_mw": 0.184,
+          "prediksi_mw": 0.1918
+        },
+        {
+          "index": 14115,
+          "waktu": "2023-08-13 03:00",
+          "aktual_mw": 0.202,
+          "prediksi_mw": 0.2038
+        },
+        {
+          "index": 14116,
+          "waktu": "2023-08-13 04:00",
+          "aktual_mw": 0.198,
+          "prediksi_mw": 0.2071
+        },
+        {
+          "index": 14117,
+          "waktu": "2023-08-13 05:00",
+          "aktual_mw": 0.198,
+          "prediksi_mw": 0.2043
+        },
+        {
+          "index": 14118,
+          "waktu": "2023-08-13 06:00",
+          "aktual_mw": 0.22,
+          "prediksi_mw": 0.2092
+        },
+        {
+          "index": 14119,
+          "waktu": "2023-08-13 07:00",
+          "aktual_mw": 0.239,
+          "prediksi_mw": 0.234
+        },
+        {
+          "index": 14120,
+          "waktu": "2023-08-13 08:00",
+          "aktual_mw": 0.238,
+          "prediksi_mw": 0.2484
+        },
+        {
+          "index": 14121,
+          "waktu": "2023-08-13 09:00",
+          "aktual_mw": 0.257,
+          "prediksi_mw": 0.267
+        },
+        {
+          "index": 14122,
+          "waktu": "2023-08-13 10:00",
+          "aktual_mw": 0.257,
+          "prediksi_mw": 0.27
+        },
+        {
+          "index": 14123,
+          "waktu": "2023-08-13 11:00",
+          "aktual_mw": 0.267,
+          "prediksi_mw": 0.2803
+        },
+        {
+          "index": 14124,
+          "waktu": "2023-08-13 12:00",
+          "aktual_mw": 0.265,
+          "prediksi_mw": 0.281
+        },
+        {
+          "index": 14125,
+          "waktu": "2023-08-13 13:00",
+          "aktual_mw": 0.279,
+          "prediksi_mw": 0.2849
+        },
+        {
+          "index": 14126,
+          "waktu": "2023-08-13 14:00",
+          "aktual_mw": 0.284,
+          "prediksi_mw": 0.2861
+        },
+        {
+          "index": 14127,
+          "waktu": "2023-08-13 15:00",
+          "aktual_mw": 0.285,
+          "prediksi_mw": 0.2884
+        },
+        {
+          "index": 14128,
+          "waktu": "2023-08-13 16:00",
+          "aktual_mw": 0.277,
+          "prediksi_mw": 0.2898
+        },
+        {
+          "index": 14129,
+          "waktu": "2023-08-13 17:00",
+          "aktual_mw": 0.305,
+          "prediksi_mw": 0.3078
+        },
+        {
+          "index": 14130,
+          "waktu": "2023-08-13 18:00",
+          "aktual_mw": 0.309,
+          "prediksi_mw": 0.3095
+        },
+        {
+          "index": 14131,
+          "waktu": "2023-08-13 19:00",
+          "aktual_mw": 0.314,
+          "prediksi_mw": 0.3236
+        },
+        {
+          "index": 14132,
+          "waktu": "2023-08-13 20:00",
+          "aktual_mw": 0.323,
+          "prediksi_mw": 0.3305
+        },
+        {
+          "index": 14133,
+          "waktu": "2023-08-13 21:00",
+          "aktual_mw": 0.335,
+          "prediksi_mw": 0.3336
+        },
+        {
+          "index": 14134,
+          "waktu": "2023-08-13 22:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3045
+        },
+        {
+          "index": 14135,
+          "waktu": "2023-08-13 23:00",
+          "aktual_mw": 0.269,
+          "prediksi_mw": 0.2675
+        },
+        {
+          "index": 14136,
+          "waktu": "2023-08-14 00:00",
+          "aktual_mw": 0.206,
+          "prediksi_mw": 0.1875
+        },
+        {
+          "index": 14137,
+          "waktu": "2023-08-14 01:00",
+          "aktual_mw": 0.208,
+          "prediksi_mw": 0.1959
+        },
+        {
+          "index": 14138,
+          "waktu": "2023-08-14 02:00",
+          "aktual_mw": 0.208,
+          "prediksi_mw": 0.209
+        },
+        {
+          "index": 14139,
+          "waktu": "2023-08-14 03:00",
+          "aktual_mw": 0.219,
+          "prediksi_mw": 0.2084
+        },
+        {
+          "index": 14140,
+          "waktu": "2023-08-14 04:00",
+          "aktual_mw": 0.215,
+          "prediksi_mw": 0.2095
+        },
+        {
+          "index": 14141,
+          "waktu": "2023-08-14 05:00",
+          "aktual_mw": 0.217,
+          "prediksi_mw": 0.2093
+        },
+        {
+          "index": 14142,
+          "waktu": "2023-08-14 06:00",
+          "aktual_mw": 0.24,
+          "prediksi_mw": 0.2317
+        },
+        {
+          "index": 14143,
+          "waktu": "2023-08-14 07:00",
+          "aktual_mw": 0.253,
+          "prediksi_mw": 0.2646
+        },
+        {
+          "index": 14144,
+          "waktu": "2023-08-14 08:00",
+          "aktual_mw": 0.256,
+          "prediksi_mw": 0.274
+        },
+        {
+          "index": 14145,
+          "waktu": "2023-08-14 09:00",
+          "aktual_mw": 0.295,
+          "prediksi_mw": 0.2913
+        }
+      ],
+      "model_file": "D:\\pln-up2d-integrated backup\\backend\\model\\outage_model_setting_1.pkl"
+    },
+    "setting_2": {
+      "label": "Setting 2",
+      "architecture": [
+        128,
+        64,
+        32
+      ],
+      "epochs": 83,
+      "metrics": {
+        "mape": 40.1279,
+        "rmse_mw": 0.139,
+        "mae_mw": 0.0448,
+        "r2": 0.641033,
+        "actual_min_mw": 0.0,
+        "actual_max_mw": 6.19,
+        "predicted_min_mw": 0.0,
+        "predicted_max_mw": 1.679
+      },
+      "sample": [
+        {
+          "index": 13978,
+          "waktu": "2023-08-07 10:00",
+          "aktual_mw": 0.296,
+          "prediksi_mw": 0.2892
+        },
+        {
+          "index": 13979,
+          "waktu": "2023-08-07 11:00",
+          "aktual_mw": 0.288,
+          "prediksi_mw": 0.2928
+        },
+        {
+          "index": 13980,
+          "waktu": "2023-08-07 12:00",
+          "aktual_mw": 0.29,
+          "prediksi_mw": 0.2935
+        },
+        {
+          "index": 13981,
+          "waktu": "2023-08-07 13:00",
+          "aktual_mw": 0.304,
+          "prediksi_mw": 0.3012
+        },
+        {
+          "index": 13982,
+          "waktu": "2023-08-07 14:00",
+          "aktual_mw": 0.303,
+          "prediksi_mw": 0.3049
+        },
+        {
+          "index": 13983,
+          "waktu": "2023-08-07 15:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3006
+        },
+        {
+          "index": 13984,
+          "waktu": "2023-08-07 16:00",
+          "aktual_mw": 0.308,
+          "prediksi_mw": 0.3013
+        },
+        {
+          "index": 13985,
+          "waktu": "2023-08-07 17:00",
+          "aktual_mw": 0.338,
+          "prediksi_mw": 0.324
+        },
+        {
+          "index": 13986,
+          "waktu": "2023-08-07 18:00",
+          "aktual_mw": 0.339,
+          "prediksi_mw": 0.3342
+        },
+        {
+          "index": 13987,
+          "waktu": "2023-08-07 19:00",
+          "aktual_mw": 0.344,
+          "prediksi_mw": 0.3454
+        },
+        {
+          "index": 13988,
+          "waktu": "2023-08-07 20:00",
+          "aktual_mw": 0.341,
+          "prediksi_mw": 0.3597
+        },
+        {
+          "index": 13989,
+          "waktu": "2023-08-07 21:00",
+          "aktual_mw": 0.366,
+          "prediksi_mw": 0.3634
+        },
+        {
+          "index": 13990,
+          "waktu": "2023-08-07 22:00",
+          "aktual_mw": 0.315,
+          "prediksi_mw": 0.3279
+        },
+        {
+          "index": 13991,
+          "waktu": "2023-08-07 23:00",
+          "aktual_mw": 0.289,
+          "prediksi_mw": 0.2915
+        },
+        {
+          "index": 13992,
+          "waktu": "2023-08-08 00:00",
+          "aktual_mw": 0.207,
+          "prediksi_mw": 0.2075
+        },
+        {
+          "index": 13993,
+          "waktu": "2023-08-08 01:00",
+          "aktual_mw": 0.214,
+          "prediksi_mw": 0.214
+        },
+        {
+          "index": 13994,
+          "waktu": "2023-08-08 02:00",
+          "aktual_mw": 0.209,
+          "prediksi_mw": 0.2215
+        },
+        {
+          "index": 13995,
+          "waktu": "2023-08-08 03:00",
+          "aktual_mw": 0.214,
+          "prediksi_mw": 0.2227
+        },
+        {
+          "index": 13996,
+          "waktu": "2023-08-08 04:00",
+          "aktual_mw": 0.212,
+          "prediksi_mw": 0.2223
+        },
+        {
+          "index": 13997,
+          "waktu": "2023-08-08 05:00",
+          "aktual_mw": 0.215,
+          "prediksi_mw": 0.2211
+        },
+        {
+          "index": 13998,
+          "waktu": "2023-08-08 06:00",
+          "aktual_mw": 0.227,
+          "prediksi_mw": 0.2345
+        },
+        {
+          "index": 13999,
+          "waktu": "2023-08-08 07:00",
+          "aktual_mw": 0.251,
+          "prediksi_mw": 0.2448
+        },
+        {
+          "index": 14000,
+          "waktu": "2023-08-08 08:00",
+          "aktual_mw": 0.265,
+          "prediksi_mw": 0.2624
+        },
+        {
+          "index": 14001,
+          "waktu": "2023-08-08 09:00",
+          "aktual_mw": 0.287,
+          "prediksi_mw": 0.2815
+        },
+        {
+          "index": 14002,
+          "waktu": "2023-08-08 10:00",
+          "aktual_mw": 0.291,
+          "prediksi_mw": 0.2847
+        },
+        {
+          "index": 14003,
+          "waktu": "2023-08-08 11:00",
+          "aktual_mw": 0.291,
+          "prediksi_mw": 0.2882
+        },
+        {
+          "index": 14004,
+          "waktu": "2023-08-08 12:00",
+          "aktual_mw": 0.288,
+          "prediksi_mw": 0.2937
+        },
+        {
+          "index": 14005,
+          "waktu": "2023-08-08 13:00",
+          "aktual_mw": 0.31,
+          "prediksi_mw": 0.3056
+        },
+        {
+          "index": 14006,
+          "waktu": "2023-08-08 14:00",
+          "aktual_mw": 0.299,
+          "prediksi_mw": 0.3111
+        },
+        {
+          "index": 14007,
+          "waktu": "2023-08-08 15:00",
+          "aktual_mw": 0.303,
+          "prediksi_mw": 0.311
+        },
+        {
+          "index": 14008,
+          "waktu": "2023-08-08 16:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3158
+        },
+        {
+          "index": 14009,
+          "waktu": "2023-08-08 17:00",
+          "aktual_mw": 0.336,
+          "prediksi_mw": 0.341
+        },
+        {
+          "index": 14010,
+          "waktu": "2023-08-08 18:00",
+          "aktual_mw": 0.332,
+          "prediksi_mw": 0.3533
+        },
+        {
+          "index": 14011,
+          "waktu": "2023-08-08 19:00",
+          "aktual_mw": 0.335,
+          "prediksi_mw": 0.3675
+        },
+        {
+          "index": 14012,
+          "waktu": "2023-08-08 20:00",
+          "aktual_mw": 0.359,
+          "prediksi_mw": 0.3772
+        },
+        {
+          "index": 14013,
+          "waktu": "2023-08-08 21:00",
+          "aktual_mw": 0.357,
+          "prediksi_mw": 0.3819
+        },
+        {
+          "index": 14014,
+          "waktu": "2023-08-08 22:00",
+          "aktual_mw": 0.326,
+          "prediksi_mw": 0.3399
+        },
+        {
+          "index": 14015,
+          "waktu": "2023-08-08 23:00",
+          "aktual_mw": 0.295,
+          "prediksi_mw": 0.3033
+        },
+        {
+          "index": 14016,
+          "waktu": "2023-08-09 00:00",
+          "aktual_mw": 0.196,
+          "prediksi_mw": 0.2051
+        },
+        {
+          "index": 14017,
+          "waktu": "2023-08-09 01:00",
+          "aktual_mw": 0.201,
+          "prediksi_mw": 0.2106
+        },
+        {
+          "index": 14018,
+          "waktu": "2023-08-09 02:00",
+          "aktual_mw": 0.226,
+          "prediksi_mw": 0.2171
+        },
+        {
+          "index": 14019,
+          "waktu": "2023-08-09 03:00",
+          "aktual_mw": 0.214,
+          "prediksi_mw": 0.22
+        },
+        {
+          "index": 14020,
+          "waktu": "2023-08-09 04:00",
+          "aktual_mw": 0.22,
+          "prediksi_mw": 0.2199
+        },
+        {
+          "index": 14021,
+          "waktu": "2023-08-09 05:00",
+          "aktual_mw": 0.214,
+          "prediksi_mw": 0.2195
+        },
+        {
+          "index": 14022,
+          "waktu": "2023-08-09 06:00",
+          "aktual_mw": 0.24,
+          "prediksi_mw": 0.233
+        },
+        {
+          "index": 14023,
+          "waktu": "2023-08-09 07:00",
+          "aktual_mw": 0.251,
+          "prediksi_mw": 0.2449
+        },
+        {
+          "index": 14024,
+          "waktu": "2023-08-09 08:00",
+          "aktual_mw": 0.254,
+          "prediksi_mw": 0.2642
+        },
+        {
+          "index": 14025,
+          "waktu": "2023-08-09 09:00",
+          "aktual_mw": 0.28,
+          "prediksi_mw": 0.2811
+        },
+        {
+          "index": 14026,
+          "waktu": "2023-08-09 10:00",
+          "aktual_mw": 0.288,
+          "prediksi_mw": 0.287
+        },
+        {
+          "index": 14027,
+          "waktu": "2023-08-09 11:00",
+          "aktual_mw": 0.294,
+          "prediksi_mw": 0.287
+        },
+        {
+          "index": 14028,
+          "waktu": "2023-08-09 12:00",
+          "aktual_mw": 0.297,
+          "prediksi_mw": 0.2923
+        },
+        {
+          "index": 14029,
+          "waktu": "2023-08-09 13:00",
+          "aktual_mw": 0.302,
+          "prediksi_mw": 0.3039
+        },
+        {
+          "index": 14030,
+          "waktu": "2023-08-09 14:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.31
+        },
+        {
+          "index": 14031,
+          "waktu": "2023-08-09 15:00",
+          "aktual_mw": 0.308,
+          "prediksi_mw": 0.3115
+        },
+        {
+          "index": 14032,
+          "waktu": "2023-08-09 16:00",
+          "aktual_mw": 0.3,
+          "prediksi_mw": 0.3171
+        },
+        {
+          "index": 14033,
+          "waktu": "2023-08-09 17:00",
+          "aktual_mw": 0.32,
+          "prediksi_mw": 0.3449
+        },
+        {
+          "index": 14034,
+          "waktu": "2023-08-09 18:00",
+          "aktual_mw": 0.345,
+          "prediksi_mw": 0.3506
+        },
+        {
+          "index": 14035,
+          "waktu": "2023-08-09 19:00",
+          "aktual_mw": 0.345,
+          "prediksi_mw": 0.367
+        },
+        {
+          "index": 14036,
+          "waktu": "2023-08-09 20:00",
+          "aktual_mw": 0.366,
+          "prediksi_mw": 0.3745
+        },
+        {
+          "index": 14037,
+          "waktu": "2023-08-09 21:00",
+          "aktual_mw": 0.359,
+          "prediksi_mw": 0.379
+        },
+        {
+          "index": 14038,
+          "waktu": "2023-08-09 22:00",
+          "aktual_mw": 0.319,
+          "prediksi_mw": 0.3395
+        },
+        {
+          "index": 14039,
+          "waktu": "2023-08-09 23:00",
+          "aktual_mw": 0.283,
+          "prediksi_mw": 0.3032
+        },
+        {
+          "index": 14040,
+          "waktu": "2023-08-10 00:00",
+          "aktual_mw": 0.199,
+          "prediksi_mw": 0.2033
+        },
+        {
+          "index": 14041,
+          "waktu": "2023-08-10 01:00",
+          "aktual_mw": 0.211,
+          "prediksi_mw": 0.2046
+        },
+        {
+          "index": 14042,
+          "waktu": "2023-08-10 02:00",
+          "aktual_mw": 0.219,
+          "prediksi_mw": 0.2112
+        },
+        {
+          "index": 14043,
+          "waktu": "2023-08-10 03:00",
+          "aktual_mw": 0.212,
+          "prediksi_mw": 0.2149
+        },
+        {
+          "index": 14044,
+          "waktu": "2023-08-10 04:00",
+          "aktual_mw": 0.209,
+          "prediksi_mw": 0.217
+        },
+        {
+          "index": 14045,
+          "waktu": "2023-08-10 05:00",
+          "aktual_mw": 0.212,
+          "prediksi_mw": 0.2175
+        },
+        {
+          "index": 14046,
+          "waktu": "2023-08-10 06:00",
+          "aktual_mw": 0.231,
+          "prediksi_mw": 0.2298
+        },
+        {
+          "index": 14047,
+          "waktu": "2023-08-10 07:00",
+          "aktual_mw": 0.249,
+          "prediksi_mw": 0.2422
+        },
+        {
+          "index": 14048,
+          "waktu": "2023-08-10 08:00",
+          "aktual_mw": 0.27,
+          "prediksi_mw": 0.2611
+        },
+        {
+          "index": 14049,
+          "waktu": "2023-08-10 09:00",
+          "aktual_mw": 0.291,
+          "prediksi_mw": 0.2808
+        },
+        {
+          "index": 14050,
+          "waktu": "2023-08-10 10:00",
+          "aktual_mw": 0.292,
+          "prediksi_mw": 0.2863
+        },
+        {
+          "index": 14051,
+          "waktu": "2023-08-10 11:00",
+          "aktual_mw": 0.294,
+          "prediksi_mw": 0.2881
+        },
+        {
+          "index": 14052,
+          "waktu": "2023-08-10 12:00",
+          "aktual_mw": 0.292,
+          "prediksi_mw": 0.2948
+        },
+        {
+          "index": 14053,
+          "waktu": "2023-08-10 13:00",
+          "aktual_mw": 0.294,
+          "prediksi_mw": 0.3042
+        },
+        {
+          "index": 14054,
+          "waktu": "2023-08-10 14:00",
+          "aktual_mw": 0.318,
+          "prediksi_mw": 0.3082
+        },
+        {
+          "index": 14055,
+          "waktu": "2023-08-10 15:00",
+          "aktual_mw": 0.294,
+          "prediksi_mw": 0.3092
+        },
+        {
+          "index": 14056,
+          "waktu": "2023-08-10 16:00",
+          "aktual_mw": 0.297,
+          "prediksi_mw": 0.3121
+        },
+        {
+          "index": 14057,
+          "waktu": "2023-08-10 17:00",
+          "aktual_mw": 0.343,
+          "prediksi_mw": 0.3382
+        },
+        {
+          "index": 14058,
+          "waktu": "2023-08-10 18:00",
+          "aktual_mw": 0.336,
+          "prediksi_mw": 0.3464
+        },
+        {
+          "index": 14059,
+          "waktu": "2023-08-10 19:00",
+          "aktual_mw": 0.335,
+          "prediksi_mw": 0.3632
+        },
+        {
+          "index": 14060,
+          "waktu": "2023-08-10 20:00",
+          "aktual_mw": 0.357,
+          "prediksi_mw": 0.3714
+        },
+        {
+          "index": 14061,
+          "waktu": "2023-08-10 21:00",
+          "aktual_mw": 0.364,
+          "prediksi_mw": 0.3766
+        },
+        {
+          "index": 14062,
+          "waktu": "2023-08-10 22:00",
+          "aktual_mw": 0.324,
+          "prediksi_mw": 0.3394
+        },
+        {
+          "index": 14063,
+          "waktu": "2023-08-10 23:00",
+          "aktual_mw": 0.286,
+          "prediksi_mw": 0.3018
+        },
+        {
+          "index": 14064,
+          "waktu": "2023-08-11 00:00",
+          "aktual_mw": 0.202,
+          "prediksi_mw": 0.2021
+        },
+        {
+          "index": 14065,
+          "waktu": "2023-08-11 01:00",
+          "aktual_mw": 0.202,
+          "prediksi_mw": 0.2039
+        },
+        {
+          "index": 14066,
+          "waktu": "2023-08-11 02:00",
+          "aktual_mw": 0.212,
+          "prediksi_mw": 0.2103
+        },
+        {
+          "index": 14067,
+          "waktu": "2023-08-11 03:00",
+          "aktual_mw": 0.219,
+          "prediksi_mw": 0.214
+        },
+        {
+          "index": 14068,
+          "waktu": "2023-08-11 04:00",
+          "aktual_mw": 0.203,
+          "prediksi_mw": 0.2167
+        },
+        {
+          "index": 14069,
+          "waktu": "2023-08-11 05:00",
+          "aktual_mw": 0.215,
+          "prediksi_mw": 0.2187
+        },
+        {
+          "index": 14070,
+          "waktu": "2023-08-11 06:00",
+          "aktual_mw": 0.236,
+          "prediksi_mw": 0.2314
+        },
+        {
+          "index": 14071,
+          "waktu": "2023-08-11 07:00",
+          "aktual_mw": 0.241,
+          "prediksi_mw": 0.243
+        },
+        {
+          "index": 14072,
+          "waktu": "2023-08-11 08:00",
+          "aktual_mw": 0.267,
+          "prediksi_mw": 0.2595
+        },
+        {
+          "index": 14073,
+          "waktu": "2023-08-11 09:00",
+          "aktual_mw": 0.292,
+          "prediksi_mw": 0.2786
+        },
+        {
+          "index": 14074,
+          "waktu": "2023-08-11 10:00",
+          "aktual_mw": 0.283,
+          "prediksi_mw": 0.2825
+        },
+        {
+          "index": 14075,
+          "waktu": "2023-08-11 11:00",
+          "aktual_mw": 0.284,
+          "prediksi_mw": 0.2856
+        },
+        {
+          "index": 14076,
+          "waktu": "2023-08-11 12:00",
+          "aktual_mw": 0.302,
+          "prediksi_mw": 0.2898
+        },
+        {
+          "index": 14077,
+          "waktu": "2023-08-11 13:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3005
+        },
+        {
+          "index": 14078,
+          "waktu": "2023-08-11 14:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3088
+        },
+        {
+          "index": 14079,
+          "waktu": "2023-08-11 15:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.3058
+        },
+        {
+          "index": 14080,
+          "waktu": "2023-08-11 16:00",
+          "aktual_mw": 0.313,
+          "prediksi_mw": 0.3127
+        },
+        {
+          "index": 14081,
+          "waktu": "2023-08-11 17:00",
+          "aktual_mw": 0.334,
+          "prediksi_mw": 0.3378
+        },
+        {
+          "index": 14082,
+          "waktu": "2023-08-11 18:00",
+          "aktual_mw": 0.344,
+          "prediksi_mw": 0.345
+        },
+        {
+          "index": 14083,
+          "waktu": "2023-08-11 19:00",
+          "aktual_mw": 0.341,
+          "prediksi_mw": 0.3623
+        },
+        {
+          "index": 14084,
+          "waktu": "2023-08-11 20:00",
+          "aktual_mw": 0.345,
+          "prediksi_mw": 0.3702
+        },
+        {
+          "index": 14085,
+          "waktu": "2023-08-11 21:00",
+          "aktual_mw": 0.356,
+          "prediksi_mw": 0.3722
+        },
+        {
+          "index": 14086,
+          "waktu": "2023-08-11 22:00",
+          "aktual_mw": 0.33,
+          "prediksi_mw": 0.3366
+        },
+        {
+          "index": 14087,
+          "waktu": "2023-08-11 23:00",
+          "aktual_mw": 0.29,
+          "prediksi_mw": 0.3018
+        },
+        {
+          "index": 14088,
+          "waktu": "2023-08-12 00:00",
+          "aktual_mw": 0.188,
+          "prediksi_mw": 0.1996
+        },
+        {
+          "index": 14089,
+          "waktu": "2023-08-12 01:00",
+          "aktual_mw": 0.188,
+          "prediksi_mw": 0.1793
+        },
+        {
+          "index": 14090,
+          "waktu": "2023-08-12 02:00",
+          "aktual_mw": 0.186,
+          "prediksi_mw": 0.1843
+        },
+        {
+          "index": 14091,
+          "waktu": "2023-08-12 03:00",
+          "aktual_mw": 0.206,
+          "prediksi_mw": 0.1862
+        },
+        {
+          "index": 14092,
+          "waktu": "2023-08-12 04:00",
+          "aktual_mw": 0.2,
+          "prediksi_mw": 0.1878
+        },
+        {
+          "index": 14093,
+          "waktu": "2023-08-12 05:00",
+          "aktual_mw": 0.204,
+          "prediksi_mw": 0.1898
+        },
+        {
+          "index": 14094,
+          "waktu": "2023-08-12 06:00",
+          "aktual_mw": 0.205,
+          "prediksi_mw": 0.2032
+        },
+        {
+          "index": 14095,
+          "waktu": "2023-08-12 07:00",
+          "aktual_mw": 0.231,
+          "prediksi_mw": 0.215
+        },
+        {
+          "index": 14096,
+          "waktu": "2023-08-12 08:00",
+          "aktual_mw": 0.234,
+          "prediksi_mw": 0.2299
+        },
+        {
+          "index": 14097,
+          "waktu": "2023-08-12 09:00",
+          "aktual_mw": 0.259,
+          "prediksi_mw": 0.2424
+        },
+        {
+          "index": 14098,
+          "waktu": "2023-08-12 10:00",
+          "aktual_mw": 0.262,
+          "prediksi_mw": 0.2445
+        },
+        {
+          "index": 14099,
+          "waktu": "2023-08-12 11:00",
+          "aktual_mw": 0.264,
+          "prediksi_mw": 0.2465
+        },
+        {
+          "index": 14100,
+          "waktu": "2023-08-12 12:00",
+          "aktual_mw": 0.269,
+          "prediksi_mw": 0.2495
+        },
+        {
+          "index": 14101,
+          "waktu": "2023-08-12 13:00",
+          "aktual_mw": 0.276,
+          "prediksi_mw": 0.2606
+        },
+        {
+          "index": 14102,
+          "waktu": "2023-08-12 14:00",
+          "aktual_mw": 0.287,
+          "prediksi_mw": 0.2677
+        },
+        {
+          "index": 14103,
+          "waktu": "2023-08-12 15:00",
+          "aktual_mw": 0.289,
+          "prediksi_mw": 0.2713
+        },
+        {
+          "index": 14104,
+          "waktu": "2023-08-12 16:00",
+          "aktual_mw": 0.284,
+          "prediksi_mw": 0.2748
+        },
+        {
+          "index": 14105,
+          "waktu": "2023-08-12 17:00",
+          "aktual_mw": 0.308,
+          "prediksi_mw": 0.3003
+        },
+        {
+          "index": 14106,
+          "waktu": "2023-08-12 18:00",
+          "aktual_mw": 0.312,
+          "prediksi_mw": 0.3066
+        },
+        {
+          "index": 14107,
+          "waktu": "2023-08-12 19:00",
+          "aktual_mw": 0.319,
+          "prediksi_mw": 0.3178
+        },
+        {
+          "index": 14108,
+          "waktu": "2023-08-12 20:00",
+          "aktual_mw": 0.337,
+          "prediksi_mw": 0.326
+        },
+        {
+          "index": 14109,
+          "waktu": "2023-08-12 21:00",
+          "aktual_mw": 0.317,
+          "prediksi_mw": 0.3414
+        },
+        {
+          "index": 14110,
+          "waktu": "2023-08-12 22:00",
+          "aktual_mw": 0.296,
+          "prediksi_mw": 0.3104
+        },
+        {
+          "index": 14111,
+          "waktu": "2023-08-12 23:00",
+          "aktual_mw": 0.266,
+          "prediksi_mw": 0.2784
+        },
+        {
+          "index": 14112,
+          "waktu": "2023-08-13 00:00",
+          "aktual_mw": 0.187,
+          "prediksi_mw": 0.174
+        },
+        {
+          "index": 14113,
+          "waktu": "2023-08-13 01:00",
+          "aktual_mw": 0.192,
+          "prediksi_mw": 0.1749
+        },
+        {
+          "index": 14114,
+          "waktu": "2023-08-13 02:00",
+          "aktual_mw": 0.184,
+          "prediksi_mw": 0.1815
+        },
+        {
+          "index": 14115,
+          "waktu": "2023-08-13 03:00",
+          "aktual_mw": 0.202,
+          "prediksi_mw": 0.1832
+        },
+        {
+          "index": 14116,
+          "waktu": "2023-08-13 04:00",
+          "aktual_mw": 0.198,
+          "prediksi_mw": 0.1861
+        },
+        {
+          "index": 14117,
+          "waktu": "2023-08-13 05:00",
+          "aktual_mw": 0.198,
+          "prediksi_mw": 0.1886
+        },
+        {
+          "index": 14118,
+          "waktu": "2023-08-13 06:00",
+          "aktual_mw": 0.22,
+          "prediksi_mw": 0.2034
+        },
+        {
+          "index": 14119,
+          "waktu": "2023-08-13 07:00",
+          "aktual_mw": 0.239,
+          "prediksi_mw": 0.2149
+        },
+        {
+          "index": 14120,
+          "waktu": "2023-08-13 08:00",
+          "aktual_mw": 0.238,
+          "prediksi_mw": 0.2317
+        },
+        {
+          "index": 14121,
+          "waktu": "2023-08-13 09:00",
+          "aktual_mw": 0.257,
+          "prediksi_mw": 0.2471
+        },
+        {
+          "index": 14122,
+          "waktu": "2023-08-13 10:00",
+          "aktual_mw": 0.257,
+          "prediksi_mw": 0.2482
+        },
+        {
+          "index": 14123,
+          "waktu": "2023-08-13 11:00",
+          "aktual_mw": 0.267,
+          "prediksi_mw": 0.2494
+        },
+        {
+          "index": 14124,
+          "waktu": "2023-08-13 12:00",
+          "aktual_mw": 0.265,
+          "prediksi_mw": 0.2532
+        },
+        {
+          "index": 14125,
+          "waktu": "2023-08-13 13:00",
+          "aktual_mw": 0.279,
+          "prediksi_mw": 0.2619
+        },
+        {
+          "index": 14126,
+          "waktu": "2023-08-13 14:00",
+          "aktual_mw": 0.284,
+          "prediksi_mw": 0.2671
+        },
+        {
+          "index": 14127,
+          "waktu": "2023-08-13 15:00",
+          "aktual_mw": 0.285,
+          "prediksi_mw": 0.2679
+        },
+        {
+          "index": 14128,
+          "waktu": "2023-08-13 16:00",
+          "aktual_mw": 0.277,
+          "prediksi_mw": 0.2727
+        },
+        {
+          "index": 14129,
+          "waktu": "2023-08-13 17:00",
+          "aktual_mw": 0.305,
+          "prediksi_mw": 0.2977
+        },
+        {
+          "index": 14130,
+          "waktu": "2023-08-13 18:00",
+          "aktual_mw": 0.309,
+          "prediksi_mw": 0.3024
+        },
+        {
+          "index": 14131,
+          "waktu": "2023-08-13 19:00",
+          "aktual_mw": 0.314,
+          "prediksi_mw": 0.3152
+        },
+        {
+          "index": 14132,
+          "waktu": "2023-08-13 20:00",
+          "aktual_mw": 0.323,
+          "prediksi_mw": 0.3229
+        },
+        {
+          "index": 14133,
+          "waktu": "2023-08-13 21:00",
+          "aktual_mw": 0.335,
+          "prediksi_mw": 0.3302
+        },
+        {
+          "index": 14134,
+          "waktu": "2023-08-13 22:00",
+          "aktual_mw": 0.306,
+          "prediksi_mw": 0.301
+        },
+        {
+          "index": 14135,
+          "waktu": "2023-08-13 23:00",
+          "aktual_mw": 0.269,
+          "prediksi_mw": 0.2697
+        },
+        {
+          "index": 14136,
+          "waktu": "2023-08-14 00:00",
+          "aktual_mw": 0.206,
+          "prediksi_mw": 0.1714
+        },
+        {
+          "index": 14137,
+          "waktu": "2023-08-14 01:00",
+          "aktual_mw": 0.208,
+          "prediksi_mw": 0.1992
+        },
+        {
+          "index": 14138,
+          "waktu": "2023-08-14 02:00",
+          "aktual_mw": 0.208,
+          "prediksi_mw": 0.2056
+        },
+        {
+          "index": 14139,
+          "waktu": "2023-08-14 03:00",
+          "aktual_mw": 0.219,
+          "prediksi_mw": 0.2096
+        },
+        {
+          "index": 14140,
+          "waktu": "2023-08-14 04:00",
+          "aktual_mw": 0.215,
+          "prediksi_mw": 0.218
+        },
+        {
+          "index": 14141,
+          "waktu": "2023-08-14 05:00",
+          "aktual_mw": 0.217,
+          "prediksi_mw": 0.2251
+        },
+        {
+          "index": 14142,
+          "waktu": "2023-08-14 06:00",
+          "aktual_mw": 0.24,
+          "prediksi_mw": 0.2409
+        },
+        {
+          "index": 14143,
+          "waktu": "2023-08-14 07:00",
+          "aktual_mw": 0.253,
+          "prediksi_mw": 0.2549
+        },
+        {
+          "index": 14144,
+          "waktu": "2023-08-14 08:00",
+          "aktual_mw": 0.256,
+          "prediksi_mw": 0.2716
+        },
+        {
+          "index": 14145,
+          "waktu": "2023-08-14 09:00",
+          "aktual_mw": 0.295,
+          "prediksi_mw": 0.2874
+        }
+      ],
+      "model_file": "D:\\pln-up2d-integrated backup\\backend\\model\\outage_model_setting_2.pkl"
+    }
+  }
+}

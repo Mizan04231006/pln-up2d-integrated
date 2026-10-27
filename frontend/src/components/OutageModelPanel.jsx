@@ -1,0 +1,76 @@
+import { BrainCircuit, LineChart } from 'lucide-react';
+import { CartesianGrid, Line, LineChart as RechartsLineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+
+const tooltipStyle = { background: '#17324d', border: 0, borderRadius: 6, color: '#fff', fontSize: 12 };
+
+function OutageModelPanel({ evaluation, loading }) {
+  const models = evaluation?.models ?? {};
+  const setting1 = models.setting_1;
+  const setting2 = models.setting_2;
+  const sample = setting1?.sample ?? [];
+  const setting2Sample = setting2?.sample ?? [];
+  const series = sample.map((point, index) => ({
+    waktu: point.waktu,
+    aktual: point.aktual_mw,
+    setting1: point.prediksi_mw,
+    setting2: setting2Sample[index]?.prediksi_mw ?? null,
+  }));
+  const comparison = Object.values(models);
+
+  return (
+    <section className="panel mb-7 min-w-0">
+      <div className="panel-heading">
+        <div className="flex items-center gap-3">
+          <div className="panel-icon panel-icon-green"><BrainCircuit className="h-5 w-5" /></div>
+          <div><p className="section-kicker">Evaluasi neural network</p><h2 className="panel-title">Forecast beban padam</h2></div>
+        </div>
+        {evaluation?.ready && <span className="text-xs text-[#667085]">Split kronologis 80/20</span>}
+      </div>
+      {loading ? <div className="h-[320px] animate-pulse rounded-lg bg-[#f4f7f6]" /> : !evaluation?.ready || !setting1 ? (
+        <p className="py-16 text-center text-sm text-[#667085]">Evaluasi model beban padam belum tersedia.</p>
+      ) : (
+        <>
+          <div className="mb-5 grid gap-3 sm:grid-cols-4">
+            <Metric label="Model aktif" value="Setting 1" />
+            <Metric label="MAPE" value={`${setting1.metrics.mape.toFixed(2)}%`} />
+            <Metric label="RMSE" value={`${setting1.metrics.rmse_mw.toFixed(3)} MW`} />
+            <Metric label="R²" value={setting1.metrics.r2.toFixed(3)} />
+          </div>
+          <div className="h-[300px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <RechartsLineChart data={series} margin={{ top: 8, right: 8, left: -18, bottom: 0 }}>
+                <CartesianGrid stroke="#e7eeeb" vertical={false} />
+                <XAxis dataKey="waktu" interval={Math.max(Math.floor(series.length / 10) - 1, 0)} tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} />
+                <YAxis unit=" MW" tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} width={55} />
+                <Tooltip contentStyle={tooltipStyle} formatter={(value, name) => [`${Number(value).toFixed(3)} MW`, name === 'aktual' ? 'Aktual' : name]} />
+                <Line type="monotone" dataKey="aktual" name="aktual" stroke="#17324d" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="setting1" name="Setting 1" stroke="#008c45" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="setting2" name="Setting 2" stroke="#d64545" strokeWidth={2} dot={false} />
+              </RechartsLineChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="mt-4 grid gap-3 border-t border-[#e7eeeb] pt-4 md:grid-cols-2">
+            {comparison.map((model) => (
+              <div key={model.label} className="rounded-lg border border-[#e7eeeb] bg-[#f8faf9] p-3 text-xs">
+                <div className="flex items-center gap-2 font-semibold text-[#17324d]"><LineChart className="h-3.5 w-3.5 text-[#008c45]" />{model.label} · {model.architecture.join('-')}</div>
+                <div className="mt-2 grid grid-cols-4 gap-2 text-[#667085]">
+                  <span>MAPE <b className="text-[#17324d]">{model.metrics.mape.toFixed(2)}%</b></span>
+                  <span>RMSE <b className="text-[#17324d]">{model.metrics.rmse_mw.toFixed(3)}</b></span>
+                  <span>MAE <b className="text-[#17324d]">{model.metrics.mae_mw.toFixed(3)}</b></span>
+                  <span>R² <b className="text-[#17324d]">{model.metrics.r2.toFixed(3)}</b></span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-xs leading-5 text-[#667085]">Kurva menampilkan 168 jam pertama pada data testing. Nilai target adalah beban padam hasil estimasi dari rekap kejadian, bukan pengukuran SCADA.</p>
+        </>
+      )}
+    </section>
+  );
+}
+
+function Metric({ label, value }) {
+  return <div className="rounded-lg border border-[#e7eeeb] bg-[#f8faf9] p-3"><p className="text-[10px] font-semibold uppercase tracking-wider text-[#667085]">{label}</p><p className="mt-1 text-sm font-semibold text-[#17324d]">{value}</p></div>;
+}
+
+export default OutageModelPanel;

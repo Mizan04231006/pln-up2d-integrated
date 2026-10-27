@@ -11,6 +11,7 @@ import ForecastPanel from './components/ForecastPanel';
 import AgentPanel from './components/AgentPanel';
 import ReliabilityCharts from './components/ReliabilityCharts';
 import FeederTable from './components/FeederTable';
+import OutageModelPanel from './components/OutageModelPanel';
 import plnLogo from '../../images/Logo_PLN.png';
 import gedungImage from '../../images/Gedung ITK.jpeg';
 
@@ -19,8 +20,10 @@ const API_BASE = import.meta.env.VITE_API_BASE ? import.meta.env.VITE_API_BASE.r
 function App() {
   const [keandalan, setKeandalan] = useState(null);
   const [forecast, setForecast] = useState(null);
+  const [outageEvaluation, setOutageEvaluation] = useState(null);
   const [loadingDashboard, setLoadingDashboard] = useState(true);
   const [loadingForecast, setLoadingForecast] = useState(true);
+  const [loadingOutageEvaluation, setLoadingOutageEvaluation] = useState(true);
   const [selectedHorizon, setSelectedHorizon] = useState(24);
   const [backendError, setBackendError] = useState({ dashboard: false, forecast: false });
   const [message, setMessage] = useState('');
@@ -60,6 +63,20 @@ function App() {
     }
   };
 
+  const fetchOutageEvaluation = async () => {
+    setLoadingOutageEvaluation(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/ml/outage-evaluation`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setOutageEvaluation(await res.json());
+    } catch (error) {
+      console.error('Gagal mengambil evaluasi model beban padam:', error);
+      setOutageEvaluation(null);
+    } finally {
+      setLoadingOutageEvaluation(false);
+    }
+  };
+
   useEffect(() => {
     fetchDashboard();
   }, []);
@@ -68,9 +85,14 @@ function App() {
     fetchForecast(selectedHorizon);
   }, [selectedHorizon]);
 
+  useEffect(() => {
+    fetchOutageEvaluation();
+  }, []);
+
   const refreshAll = () => {
     fetchDashboard();
     fetchForecast(selectedHorizon);
+    fetchOutageEvaluation();
   };
 
   const handleAsk = async () => {
@@ -239,6 +261,7 @@ function App() {
         </section>
 
         <ReliabilityCharts forecastSeries={forecastSeries} monthlySeries={monthlySeries} feederSeries={feederSeries} loadingForecast={loadingForecast} loadingDashboard={loadingDashboard} selectedHorizon={selectedHorizon} onHorizonChange={setSelectedHorizon} />
+        <OutageModelPanel evaluation={outageEvaluation} loading={loadingOutageEvaluation} />
         <FeederTable keandalan={keandalan} summary={summary} forecast={forecast} loadingDashboard={loadingDashboard} loadingForecast={loadingForecast} />
       </main>
     </div>

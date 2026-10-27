@@ -22,6 +22,8 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 - GET /api/health
 - GET /api/dashboard/keandalan
 - GET /api/ml/forecast
+- GET /api/ml/outage-forecast
+- GET /api/ml/outage-evaluation
 - POST /api/agent/chat
 - GET /api/data/source
 - POST /api/data/reload

@@ -29,12 +29,20 @@ FORECAST_WINDOW_HOURS = 24
 DEFAULT_FORECAST_HORIZON = 24
 MAX_FORECAST_HORIZON = 168
 SIM_DATA_FILE = ROOT_DIR / "neural network_load forcasting_up2d" / "data_beban_up2d.csv"
+OUTAGE_DATA_FILE = DATA_DIR / "data_beban_padam_up2d.csv"
+OUTAGE_EVALUATION_FILE = DATA_DIR / "outage_model_evaluation.json"
 
 ML_FORECAST_MODEL: Any = None
 ML_SCALER_BEBAN: Any = None
 ML_SCALER_FITUR: Any = None
 ML_READY = False
 ML_LOAD_ERROR: str | None = None
+OUTAGE_MODEL: Any = None
+OUTAGE_SCALER_BEBAN: Any = None
+OUTAGE_SCALER_FITUR: Any = None
+OUTAGE_EVALUATION: dict[str, Any] = {}
+OUTAGE_READY = False
+OUTAGE_LOAD_ERROR: str | None = None
 
 # Always read .env from backend folder, even if uvicorn is started from another cwd.
 load_dotenv(dotenv_path=BASE_DIR / ".env")
@@ -289,6 +297,30 @@ def load_forecast_model_artifacts() -> None:
         ML_LOAD_ERROR = str(exc)
 
 
+def load_outage_model_artifacts() -> None:
+    global OUTAGE_MODEL, OUTAGE_SCALER_BEBAN, OUTAGE_SCALER_FITUR
+    global OUTAGE_EVALUATION, OUTAGE_READY, OUTAGE_LOAD_ERROR
+
+    try:
+        with (MODEL_DIR / "outage_model_setting_1.pkl").open("rb") as handle:
+            OUTAGE_MODEL = pickle.load(handle)
+        with (MODEL_DIR / "outage_scaler_beban.pkl").open("rb") as handle:
+            OUTAGE_SCALER_BEBAN = pickle.load(handle)
+        with (MODEL_DIR / "outage_scaler_fitur.pkl").open("rb") as handle:
+            OUTAGE_SCALER_FITUR = pickle.load(handle)
+        with OUTAGE_EVALUATION_FILE.open("r", encoding="utf-8") as handle:
+            OUTAGE_EVALUATION = json.load(handle)
+        OUTAGE_READY = True
+        OUTAGE_LOAD_ERROR = None
+    except Exception as exc:
+        OUTAGE_MODEL = None
+        OUTAGE_SCALER_BEBAN = None
+        OUTAGE_SCALER_FITUR = None
+        OUTAGE_EVALUATION = {}
+        OUTAGE_READY = False
+        OUTAGE_LOAD_ERROR = str(exc)
+
+
 def _compute_forecast_with_mlp(horizon: int) -> tuple[list[dict[str, Any]] | None, str | None, str | None]:
     if not ML_READY or ML_FORECAST_MODEL is None or ML_SCALER_BEBAN is None or ML_SCALER_FITUR is None:
         return None, None, "artefak model belum siap"
@@ -478,6 +510,7 @@ def initialize_data_sources() -> None:
 
 initialize_data_sources()
 load_forecast_model_artifacts()
+load_outage_model_artifacts()
 
 
 class AgentRequest(BaseModel):
@@ -555,6 +588,7 @@ def compute_keandalan():
 @app.on_event("startup")
 def startup_load_models() -> None:
     load_forecast_model_artifacts()
+    load_outage_model_artifacts()
 
 
 def compute_forecast(horizon: int = DEFAULT_FORECAST_HORIZON):
@@ -596,6 +630,108 @@ def compute_forecast(horizon: int = DEFAULT_FORECAST_HORIZON):
             "fallback_reason": ml_error if not using_mlp else None,
             "ml_ready": ML_READY,
             "ml_load_error": ML_LOAD_ERROR,
+        },
+    }
+
+
+def _load_outage_history() -> list[dict[str, Any]]:
+    if not OUTAGE_DATA_FILE.exists():
+        return []
+    rows: list[dict[str, Any]] = []
+    with OUTAGE_DATA_FILE.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        for row in reader:
+            waktu = _parse_waktu(row.get("Waktu") or "")
+            if waktu is None:
+                continue
+            rows.append(
+                {
+                    "Waktu": waktu,
+                    "Beban_MW": _safe_float(row.get("Beban_MW"), 0.0),
+                    "Suhu_C": _safe_float(row.get("Suhu_C"), 29.0),
+                    "Jam": _safe_int(row.get("Jam"), waktu.hour),
+                    "Hari_Minggu": _safe_int(row.get("Hari_Minggu"), waktu.weekday()),
+                    "Bulan": _safe_int(row.get("Bulan"), waktu.month),
+                    "Adalah_Libur": _safe_int(row.get("Adalah_Libur"), int(waktu.weekday() >= 5)),
+                }
+            )
+    rows.sort(key=lambda row: row["Waktu"])
+    return rows
+
+
+def compute_outage_forecast(horizon: int = DEFAULT_FORECAST_HORIZON) -> dict[str, Any]:
+    horizon = max(1, min(int(horizon), MAX_FORECAST_HORIZON))
+    if not OUTAGE_READY or OUTAGE_MODEL is None or OUTAGE_SCALER_BEBAN is None or OUTAGE_SCALER_FITUR is None:
+        return {
+            "prediksi": [],
+            "summary": {
+                "model": "Outage model unavailable",
+                "horizon": horizon,
+                "ready": False,
+                "error": OUTAGE_LOAD_ERROR,
+            },
+        }
+
+    history = _load_outage_history()
+    if len(history) < FORECAST_WINDOW_HOURS:
+        return {
+            "prediksi": [],
+            "summary": {
+                "model": "Outage model unavailable",
+                "horizon": horizon,
+                "ready": False,
+                "error": "data beban padam kurang dari 24 jam",
+            },
+        }
+
+    window = history[-FORECAST_WINDOW_HOURS:]
+    normalized_window = [
+        OUTAGE_SCALER_FITUR.transform([[row[feature] for feature in FITUR_INPUT]])[0].tolist()
+        for row in window
+    ]
+    temperatures = {hour: [] for hour in range(24)}
+    for row in history:
+        temperatures[row["Jam"]].append(row["Suhu_C"])
+
+    predictions: list[dict[str, Any]] = []
+    current_time = window[-1]["Waktu"]
+    for _ in range(horizon):
+        prediction_norm = float(OUTAGE_MODEL.predict(np.array(normalized_window).flatten().reshape(1, -1))[0])
+        prediction_mw = max(
+            0.0,
+            float(OUTAGE_SCALER_BEBAN.inverse_transform([[prediction_norm]])[0][0]),
+        )
+        next_time = current_time + timedelta(hours=1)
+        hour_temperatures = temperatures.get(next_time.hour, [29.0])
+        next_row = {
+            "Waktu": next_time,
+            "Beban_MW": round(prediction_mw, 4),
+            "Suhu_C": float(sum(hour_temperatures) / len(hour_temperatures)),
+            "Jam": next_time.hour,
+            "Hari_Minggu": next_time.weekday(),
+            "Bulan": next_time.month,
+            "Adalah_Libur": int(next_time.weekday() >= 5),
+        }
+        next_features = OUTAGE_SCALER_FITUR.transform(
+            [[next_row[feature] for feature in FITUR_INPUT]]
+        )[0].tolist()
+        normalized_window = normalized_window[1:] + [next_features]
+        current_time = next_time
+        predictions.append(
+            {"hour": next_time.strftime("%H:%M"), "beban_mw": round(prediction_mw, 4)}
+        )
+
+    peak = max(predictions, key=lambda point: point["beban_mw"])
+    return {
+        "prediksi": predictions,
+        "summary": {
+            "peak_mw": round(peak["beban_mw"], 4),
+            "peak_hour": peak["hour"],
+            "average_mw": round(sum(point["beban_mw"] for point in predictions) / len(predictions), 4),
+            "horizon": horizon,
+            "model": "MLPRegressor Outage Setting 1",
+            "ready": True,
+            "source": str(OUTAGE_DATA_FILE),
         },
     }
 
@@ -785,6 +921,26 @@ def dashboard_keandalan() -> dict[str, Any]:
 @app.get("/api/ml/forecast")
 def ml_forecast(horizon: int = Query(default=24, ge=1, le=MAX_FORECAST_HORIZON)) -> dict[str, Any]:
     return compute_forecast(horizon=horizon)
+
+
+@app.get("/api/ml/outage-forecast")
+def ml_outage_forecast(horizon: int = Query(default=24, ge=1, le=MAX_FORECAST_HORIZON)) -> dict[str, Any]:
+    return compute_outage_forecast(horizon=horizon)
+
+
+@app.get("/api/ml/outage-evaluation")
+def ml_outage_evaluation() -> dict[str, Any]:
+    if not OUTAGE_EVALUATION:
+        return {
+            "ready": False,
+            "error": OUTAGE_LOAD_ERROR,
+            "models": {},
+        }
+    return {
+        "ready": OUTAGE_READY,
+        "error": OUTAGE_LOAD_ERROR,
+        **OUTAGE_EVALUATION,
+    }
 
 
 AGENT_SYSTEM_PROMPT = (
