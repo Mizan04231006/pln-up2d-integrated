@@ -45,8 +45,12 @@ Satu domain:
   `/api/*`, `/docs`, `/redoc`, `/openapi.json` diteruskan ke FastAPI.
 - **`requirements.txt` (root)** — salinan `backend/requirements.txt`. Wajib ada
   di root agar Vercel mendeteksi preset Python/FastAPI dan meng-install dependency.
+- **`.python-version` (root)** — pin runtime production ke Python 3.12, sama dengan
+  versi yang didefinisikan di `backend/.python-version`.
 - **`vercel.json`** — hanya `buildCommand` (build frontend). **Tanpa**
   `outputDirectory`, supaya Vercel membuat function Python, bukan situs statis.
+  Frontend menggunakan `npm ci` berdasarkan lockfile, lalu hasil build disalin ke
+  `public/` untuk disajikan oleh FastAPI middleware.
 - **`backend/main.py`** — loop tool-calling AI dikurangi 4 → 3 iterasi agar aman
   terhadap batas eksekusi 10 detik Vercel Hobby.
 - Teruji lokal: `index.py` mengimpor `backend/main.py` (11 route); `/` menyajikan
@@ -82,6 +86,7 @@ Satu domain:
    - `https://pln-up2d-integrated.vercel.app/api/health` → JSON `{"status":"ok",...}`
    - `https://pln-up2d-integrated.vercel.app/` → dashboard React
    - `https://pln-up2d-integrated.vercel.app/api/dashboard/keandalan` → JSON
+   - `https://pln-up2d-integrated.vercel.app/api/ml/outage-evaluation` → evaluasi model
 
 ## Kalau masih gagal / opsi lain
 
