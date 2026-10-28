@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "cd frontend && npm ci && npm run build && rm -rf ../public && cp -r dist ../public"
+  "buildCommand": "cd frontend && npm ci && npm run build && cd .. && rm -rf public && cp -r frontend/dist public",
+  "installCommand": "python -m pip install -r requirements.txt"
 }
 

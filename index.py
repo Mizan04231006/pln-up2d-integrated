@@ -34,7 +34,14 @@ if not _FRONTEND_DIST.is_dir():  # fallback untuk pengujian lokal (npm run build
     _FRONTEND_DIST = ROOT_DIR / "frontend" / "dist"
 
 if _FRONTEND_DIST.is_dir():
+    from fastapi.staticfiles import StaticFiles
     from starlette.types import ASGIApp, Receive, Scope, Send
+
+    # Serve generated frontend bundles directly so JS/CSS/image requests do not
+    # fall through to the SPA index or get served as HTML.
+    app.mount("/assets", StaticFiles(directory=str(_FRONTEND_DIST / "assets")), name="assets")
+    if (_FRONTEND_DIST / "images").is_dir():
+        app.mount("/images", StaticFiles(directory=str(_FRONTEND_DIST / "images")), name="images")
 
     class _FrontendStaticMiddleware:
         """Sajikan build React; minta /api/* diteruskan ke FastAPI.
@@ -59,6 +66,12 @@ if _FRONTEND_DIST.is_dir():
 
             path = scope["path"]
             if path.startswith(self.passthrough_prefixes) or path in self.passthrough_exact:
+                await self.app(scope, receive, send)
+                return
+
+            # Jangan mengembalikan index.html untuk request aset frontend yang jelas-jelas
+            # memang berlokasi di /assets/ atau /images/; route StaticFiles akan menangani.
+            if path.startswith("/assets") or path.startswith("/images"):
                 await self.app(scope, receive, send)
                 return
 
