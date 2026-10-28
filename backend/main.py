@@ -9,7 +9,10 @@ from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
-import numpy as np
+try:
+    import numpy as np
+except ImportError:  # pragma: no cover - optional for lightweight Vercel build
+    np = None
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -174,6 +177,15 @@ def _safe_float(value: Any, default: float = 0.0) -> float:
         return default
 
 
+def _is_nan(value: Any) -> bool:
+    if value is None:
+        return True
+    try:
+        return bool(float(value) != float(value))
+    except (TypeError, ValueError):
+        return False
+
+
 def _safe_int(value: Any, default: int) -> int:
     try:
         return int(float(value))
@@ -215,9 +227,9 @@ def _load_historical_rows() -> tuple[list[dict[str, Any]], str | None, str | Non
                     if waktu is None:
                         continue
 
-                    beban_mw = _safe_float(row.get("Beban_MW"), np.nan)
-                    suhu_c = _safe_float(row.get("Suhu_C"), np.nan)
-                    if np.isnan(beban_mw) or np.isnan(suhu_c):
+                    beban_mw = _safe_float(row.get("Beban_MW"), float("nan"))
+                    suhu_c = _safe_float(row.get("Suhu_C"), float("nan"))
+                    if _is_nan(beban_mw) or _is_nan(suhu_c):
                         continue
 
                     jam = _safe_int(row.get("Jam"), waktu.hour)
@@ -327,6 +339,8 @@ def load_outage_model_artifacts() -> None:
 def _compute_forecast_with_mlp(horizon: int) -> tuple[list[dict[str, Any]] | None, str | None, str | None]:
     if not ML_READY or ML_FORECAST_MODEL is None or ML_SCALER_BEBAN is None or ML_SCALER_FITUR is None:
         return None, None, "artefak model belum siap"
+    if np is None:
+        return None, None, "numpy tidak tersedia untuk inferensi model"
 
     history_rows, source_file, history_error = _load_historical_rows()
     if history_error:
@@ -761,6 +775,16 @@ def _load_outage_history() -> list[dict[str, Any]]:
 
 def compute_outage_forecast(horizon: int = DEFAULT_FORECAST_HORIZON) -> dict[str, Any]:
     horizon = max(1, min(int(horizon), MAX_FORECAST_HORIZON))
+    if np is None:
+        return {
+            "prediksi": [],
+            "summary": {
+                "model": "Outage model unavailable",
+                "horizon": horizon,
+                "ready": False,
+                "error": "numpy not available; using CSV fallback only",
+            },
+        }
     if not OUTAGE_READY or OUTAGE_MODEL is None or OUTAGE_SCALER_BEBAN is None or OUTAGE_SCALER_FITUR is None:
         return {
             "prediksi": [],
