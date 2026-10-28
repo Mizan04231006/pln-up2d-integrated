@@ -7,7 +7,6 @@ import {
   ShieldCheck,
   Wifi,
 } from 'lucide-react';
-import ForecastPanel from './components/ForecastPanel';
 import AgentPanel from './components/AgentPanel';
 import ReliabilityCharts from './components/ReliabilityCharts';
 import FeederTable from './components/FeederTable';
@@ -50,13 +49,13 @@ function App() {
   const fetchForecast = async (horizon = 24) => {
     setLoadingForecast(true);
     try {
-      const res = await fetch(`${API_BASE}/api/ml/forecast?horizon=${horizon}`);
+      const res = await fetch(`${API_BASE}/api/ml/outage-forecast?horizon=${horizon}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setForecast(await res.json());
       setBackendError((prev) => ({ ...prev, forecast: false }));
       setLastUpdated(new Date());
     } catch (error) {
-      console.error('Gagal mengambil data forecast:', error);
+      console.error('Gagal mengambil data forecast outage:', error);
       setBackendError((prev) => ({ ...prev, forecast: true }));
     } finally {
       setLoadingForecast(false);
@@ -265,8 +264,7 @@ function App() {
           </section>
         )}
 
-        <section className="mb-7 grid gap-6 xl:grid-cols-[1.55fr_1fr]">
-          <ForecastPanel forecast={forecast} loading={loadingForecast} />
+        <section className="mb-7">
           <AgentPanel message={message} setMessage={setMessage} chatThread={chatThread} loading={loading} onAsk={handleAsk} />
         </section>
 

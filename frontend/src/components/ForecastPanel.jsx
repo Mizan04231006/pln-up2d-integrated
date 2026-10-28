@@ -18,7 +18,7 @@ function ForecastPanel({ forecast, loading }) {
       <div className="panel-heading">
         <div className="flex items-center gap-3">
           <div className="panel-icon panel-icon-green"><LineChart className="h-5 w-5" /></div>
-          <div><p className="section-kicker">Analisis beban</p><h2 className="panel-title">Forecast beban listrik</h2></div>
+          <div><p className="section-kicker">Analisis beban</p><h2 className="panel-title">Forecast beban padam (hasil olah data mentah)</h2></div>
         </div>
         {forecast?.summary?.status && <span className={`status-label status-label-${forecast.summary.status === 'AWAS' ? 'critical' : forecast.summary.status === 'SIAGA' ? 'warning' : 'normal'}`}>{forecast.summary.status}</span>}
       </div>
@@ -40,7 +40,7 @@ function ForecastPanel({ forecast, loading }) {
                   <CartesianGrid stroke="#e7eeeb" vertical={false} />
                   <XAxis dataKey="hour" tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} minTickGap={18} />
                   <YAxis unit=" MW" tick={{ fontSize: 10, fill: '#667085' }} tickLine={false} axisLine={false} width={55} />
-                  <Tooltip contentStyle={{ background: '#17324d', border: 0, borderRadius: 6, color: '#fff', fontSize: 12 }} formatter={(value) => [`${Number(value).toFixed(1)} MW`, 'Beban prediksi']} />
+                  <Tooltip contentStyle={{ background: '#17324d', border: 0, borderRadius: 6, color: '#fff', fontSize: 12 }} formatter={(value) => [`${Number(value).toFixed(1)} MW`, 'Beban padam prediksi']} />
                   <Area type="monotone" dataKey="beban" stroke="none" fill="url(#forecastFill)" />
                   <Line type="monotone" dataKey="beban" name="Prediksi" stroke="#008c45" strokeWidth={2.5} dot={false} />
                 </ComposedChart>
