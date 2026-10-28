@@ -319,15 +319,18 @@ def load_outage_model_artifacts() -> None:
     OUTAGE_MODEL = None
     OUTAGE_SCALER_BEBAN = None
     OUTAGE_SCALER_FITUR = None
-    OUTAGE_EVALUATION = {}
     OUTAGE_READY = False
     OUTAGE_LOAD_ERROR = None
 
-    try:
-        with OUTAGE_EVALUATION_FILE.open("r", encoding="utf-8") as handle:
-            OUTAGE_EVALUATION = json.load(handle)
-    except Exception:
-        OUTAGE_EVALUATION = {}
+    loaded_evaluation: dict[str, Any] = {}
+    if OUTAGE_EVALUATION_FILE.exists():
+        try:
+            with OUTAGE_EVALUATION_FILE.open("r", encoding="utf-8") as handle:
+                loaded_evaluation = json.load(handle)
+        except Exception:
+            loaded_evaluation = {}
+
+    OUTAGE_EVALUATION = loaded_evaluation
 
     try:
         with (MODEL_DIR / "outage_model_setting_1.pkl").open("rb") as handle:
